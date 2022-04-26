@@ -1,8 +1,69 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+@{
+    ViewData["Title"] = "Главная";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+       
+    </head>
+     <body style="background-image: url('/Image/fon.jpg');">
+          @*<body >*@
+@*<div class="block" >*@
+    @*<div class="block">
+         <img src="/Image/3641634.jpg"  />*@
+
+<h1>Добро пожаловать на протал записи к врачу</h1>
+<div class="row">
+    <div class="col-md-9">
+   @* <img src="/Image/3641634.jpg" height="500" width="1100" border="0" />*@
+    <table >
+    <tr>
+        <td>
+            <button type="submit" class="btn btn-primary "> <a class="btn-primary"  asp-controller="Home" asp-action="ClinicsView">Запись на прием</a> </button>
+            
+        </td>
+        <td>
+            На нашем портале вы можете записаться на прием к врачам разных специальностей. При записи необходим номер полиса.
+        </td>
+    <tr/>
+    <tr>
+        @if(User.Identity.IsAuthenticated)
+            {
+                 <td>
+             <button type="submit" class="btn btn-primary "> <a class="btn-primary" asp-area="Identity" asp-page="/Account/Manage/Index">Вход в личный кабинет</a> </button>
+           
+                </td>
+            }
+            else
+            {
+                <td>
+             <button type="submit" class="btn btn-primary "> <a class="btn-primary" asp-area="Identity" asp-page="/Account/Login">Вход в личный кабинет</a> </button>
+           
+            </td>
+            }
+            
+        <td>
+            В личном кабинете есть возможность посмотреть историю своих записей. 
+        </td>
+    </tr>
+       <tr>
+        <td>
+            <button type="submit" class="btn btn-primary "> <a class="btn-primary" asp-area="" asp-controller="Home" asp-action="Status">Проверка статуса записи</a> </button>
+        </td>
+        <td>
+            Можно проверить статус записи на прием к врачу.
+        </td>
+    </tr>
+</table>
+
 </div>
+</div>
+@*</div>*@
+
+ </body>
+</html>
+
