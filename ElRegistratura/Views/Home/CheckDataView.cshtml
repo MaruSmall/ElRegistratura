@@ -1,0 +1,78 @@
+﻿@using ElRegistratura.Data
+@model ElRegistratura.Models.ViewModelTicket
+
+@{
+    ViewData["Title"] = "Instructors";
+}
+
+<h2>Проверка данных</h2>
+
+@foreach (var item in Model.Ticket.Distinct())
+        {
+<table class="table">
+    <thead>
+        <tr>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+             <th>Специальность</th>
+            <th>Название поликлиники</th>
+            <th>Адрес поликлиники</th>
+            <th>Пациент</th>
+            <th>Номер талона</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        
+            
+          
+            <tr >
+               @* @if(item.Schedule.Doctor.Id==DoctorItem.IdDoctorItem && item.Id==DoctorItem.IdTicket)
+                {*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Schedule.Doctor.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Schedule.Doctor.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Schedule.Doctor.Patronymic)
+                </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Schedule.Doctor.Speciality.Name)
+                </td>
+                <td>
+                  @Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.Name)
+                </td>
+                 <td>
+                  @Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.Street.Name)
+                  д.@Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.HouseNumb), 
+                  кор.@Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.Housing)
+                </td>
+                  <td>
+                      @if(User.Identity.IsAuthenticated)
+                    {
+                        @User.Identity.Name
+                   @* @Html.DisplayFor(modelItem => item.Patient.FirstName)
+                   @Html.DisplayFor(modelItem => item.Patient.LastName)
+                    @Html.DisplayFor(modelItem => item.Patient.Patronymic)*@
+                    }
+                   
+                   
+                </td>
+                  <td>
+                  @Html.DisplayFor(modelItem => item.Id)
+                </td>
+             
+           
+            </tr>
+             
+    </tbody>
+  
+
+</table>
+<div>  <button type="submit" class="btn btn-primary "> <a class="btn-primary" asp-controller="Home" asp-action="EditTicket" asp-route-id="@item.Id">Записаться</a> </button> </div>  
+           
+}

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ElRegistratura.Models.Clinic>
+<h1>Поликлиники</h1>
+
+<div>
+    <a class="navbar-brand" asp-controller="Home" asp-action="Index">Назад</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Street.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HouseNumb)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Housing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HouseNumb)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.Housing)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                <a asp-controller="Home" asp-action="SpecialityDoctorsView" asp-route-id="@item.Id">Просмотреть специалистов</a> 
+               @* <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
