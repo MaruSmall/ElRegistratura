@@ -1,4 +1,5 @@
 ﻿using ElRegistratura.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,6 +25,11 @@ namespace ElRegistratura.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult AdminView()
         {
             return View();
         }
