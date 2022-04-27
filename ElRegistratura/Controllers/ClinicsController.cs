@@ -118,7 +118,7 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Id", clinic.StreetId);
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name", clinic.StreetId);
             return View(clinic);
         }
 

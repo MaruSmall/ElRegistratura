@@ -48,7 +48,7 @@ namespace ElRegistratura.Controllers
         // GET: Plots/Create
         public IActionResult Create()
         {
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb");
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace ElRegistratura.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", plot.ClinicId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", plot.ClinicId);
             return View(plot);
         }
 
@@ -82,7 +82,7 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", plot.ClinicId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", plot.ClinicId);
             return View(plot);
         }
 
@@ -118,7 +118,7 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", plot.ClinicId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", plot.ClinicId);
             return View(plot);
         }
 

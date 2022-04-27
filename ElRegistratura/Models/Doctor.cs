@@ -12,8 +12,9 @@ namespace ElRegistratura.Models
         public string FirstName { get; set; }
         [Display(Name = "Отчество")]
         public string Patronymic { get; set; }
+
         [Display(Name = "Фотография")]
-        public byte[] DoctorPicture { get; set; }
+        public byte[]? DoctorPicture { get; set; }
         [Display(Name = "Поликлиника")]
         public int ClinicId { get; set; }
         [Display(Name = "Поликлиника")]

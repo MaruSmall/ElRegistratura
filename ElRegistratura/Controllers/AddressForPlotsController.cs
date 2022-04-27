@@ -49,8 +49,8 @@ namespace ElRegistratura.Controllers
         // GET: AddressForPlots/Create
         public IActionResult Create()
         {
-            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Id");
-            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Id");
+            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Name");
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace ElRegistratura.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Id", addressForPlot.PlotId);
-            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Id", addressForPlot.StreetId);
+            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Name", addressForPlot.PlotId);
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name", addressForPlot.StreetId);
             return View(addressForPlot);
         }
 
@@ -85,8 +85,8 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Id", addressForPlot.PlotId);
-            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Id", addressForPlot.StreetId);
+            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Name", addressForPlot.PlotId);
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name", addressForPlot.StreetId);
             return View(addressForPlot);
         }
 
@@ -122,8 +122,8 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Id", addressForPlot.PlotId);
-            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Id", addressForPlot.StreetId);
+            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Name", addressForPlot.PlotId);
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name", addressForPlot.StreetId);
             return View(addressForPlot);
         }
 

@@ -50,7 +50,7 @@ namespace ElRegistratura.Controllers
         public IActionResult Create()
         {
             ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name");
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "Id");
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LastName");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace ElRegistratura.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "Id", schedule.DoctorId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LastName", schedule.DoctorId);
             return View(schedule);
         }
 
@@ -86,7 +86,7 @@ namespace ElRegistratura.Controllers
                 return NotFound();
             }
             ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "Id", schedule.DoctorId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LastName", schedule.DoctorId);
             return View(schedule);
         }
 
@@ -123,7 +123,7 @@ namespace ElRegistratura.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "Id", schedule.DoctorId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LastName", schedule.DoctorId);
             return View(schedule);
         }
 

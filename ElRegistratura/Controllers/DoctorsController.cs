@@ -53,10 +53,10 @@ namespace ElRegistratura.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb");
-            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Id");
-            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Id");
-            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Id");
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name");
+            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Name");
+            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Name");
+            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace ElRegistratura.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LastName,FirstName,Patromynic,DoctorPicture,ClinicId,CategoryId,PositionId,SpecialityId,PlotId")] Doctor doctor)
+        public async Task<IActionResult> Create([Bind("Id,LastName,FirstName,Patronymic,DoctorPicture,ClinicId,CategoryId,PositionId,SpecialityId,PlotId")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
@@ -74,10 +74,10 @@ namespace ElRegistratura.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", doctor.CategoryId);
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", doctor.ClinicId);
-            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Id", doctor.PlotId);
-            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Id", doctor.PositionId);
-            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Id", doctor.SpecialityId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", doctor.ClinicId);
+            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Name", doctor.PlotId);
+            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Name", doctor.PositionId);
+            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
             return View(doctor);
         }
 
@@ -95,10 +95,10 @@ namespace ElRegistratura.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", doctor.CategoryId);
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", doctor.ClinicId);
-            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Id", doctor.PlotId);
-            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Id", doctor.PositionId);
-            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Id", doctor.SpecialityId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", doctor.ClinicId);
+            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Name", doctor.PlotId);
+            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Name", doctor.PositionId);
+            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
             return View(doctor);
         }
 
@@ -107,7 +107,7 @@ namespace ElRegistratura.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LastName,FirstName,Patromynic,DoctorPicture,ClinicId,CategoryId,PositionId,SpecialityId,PlotId")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LastName,FirstName,Patronymic,DoctorPicture,ClinicId,CategoryId,PositionId,SpecialityId,PlotId")] Doctor doctor)
         {
             if (id != doctor.Id)
             {
@@ -135,10 +135,10 @@ namespace ElRegistratura.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", doctor.CategoryId);
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", doctor.ClinicId);
-            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Id", doctor.PlotId);
-            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Id", doctor.PositionId);
-            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Id", doctor.SpecialityId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", doctor.ClinicId);
+            ViewData["PlotId"] = new SelectList(_context.Plots, "Id", "Name", doctor.PlotId);
+            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Name", doctor.PositionId);
+            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
             return View(doctor);
         }
 

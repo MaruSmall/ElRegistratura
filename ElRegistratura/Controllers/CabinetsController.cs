@@ -48,7 +48,7 @@ namespace ElRegistratura.Controllers
         // GET: Cabinets/Create
         public IActionResult Create()
         {
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb");
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace ElRegistratura.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", cabinet.ClinicId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", cabinet.ClinicId);
             return View(cabinet);
         }
 
@@ -82,7 +82,7 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", cabinet.ClinicId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", cabinet.ClinicId);
             return View(cabinet);
         }
 
@@ -118,7 +118,7 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "HouseNumb", cabinet.ClinicId);
+            ViewData["ClinicId"] = new SelectList(_context.Clinics, "Id", "Name", cabinet.ClinicId);
             return View(cabinet);
         }
 
