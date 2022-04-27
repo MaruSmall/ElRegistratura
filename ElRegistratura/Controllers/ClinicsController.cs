@@ -48,7 +48,7 @@ namespace ElRegistratura.Controllers
         // GET: Clinics/Create
         public IActionResult Create()
         {
-            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Id");
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace ElRegistratura.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Id", clinic.StreetId);
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name", clinic.StreetId);
             return View(clinic);
         }
 
@@ -82,7 +82,7 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Id", clinic.StreetId);
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name", clinic.StreetId);
             return View(clinic);
         }
 

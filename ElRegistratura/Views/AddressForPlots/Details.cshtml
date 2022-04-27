@@ -1,13 +1,13 @@
 ﻿@model ElRegistratura.Models.AddressForPlot
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Подробно";
 }
 
-<h1>Details</h1>
+<h1>Подробнее</h1>
 
 <div>
-    <h4>AddressForPlot</h4>
+    <h4>Адрес</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -20,17 +20,17 @@
             @Html.DisplayNameFor(model => model.Street)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Street.Id)
+            @Html.DisplayFor(model => model.Street.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Plot)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Plot.Id)
+            @Html.DisplayFor(model => model.Plot.Name)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
+    <a asp-action="Index">Назад</a>
 </div>

@@ -11,10 +11,10 @@ namespace ElRegistratura.Models
         [Display(Name = "Дополнительная информация")]
         public string Info { get; set; }
 
-        [Display(Name = "Поликлиника"), Required]
-        public int ClinicId { get; set; }
-        [Display(Name = "Поликлиника"), Required]
-        public Clinic Clinic { get; set; }
+        [Display(Name = "Поликлиника")]
+        public int? ClinicId { get; set; }
+        [Display(Name = "Поликлиника")]
+        public Clinic? Clinic { get; set; }
 
         public List<Schedule> Schedules { get; set; }
     }

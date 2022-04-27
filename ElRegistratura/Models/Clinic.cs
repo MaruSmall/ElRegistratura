@@ -10,12 +10,12 @@ namespace ElRegistratura.Models
         public string Name { get; set; }
         [Display(Name = "Улица"), Required]
         public int StreetId { get; set; }
-        [Display(Name = "Улица"), Required]
+        [Display(Name = "Улица")]
         public Street Street { get; set; }
         [Display(Name = "Номер дома"), Required]
         public string HouseNumb { get; set; }
         [Display(Name = "Корпус")]
-        public string Housing { get; set; }
+        public string? Housing { get; set; }
         [Display(Name = "Номер телефона"), Required]
         public string PhoneNumber { get; set; }
 
