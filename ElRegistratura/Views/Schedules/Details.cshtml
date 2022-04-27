@@ -1,13 +1,13 @@
 ﻿@model ElRegistratura.Models.Schedule
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Подробно";
 }
 
-<h1>Details</h1>
+<h1>Подробнее</h1>
 
 <div>
-    <h4>Schedule</h4>
+    <h4>Расписание</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -20,7 +20,9 @@
             @Html.DisplayNameFor(model => model.Doctor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Doctor.Id)
+            @Html.DisplayFor(model => model.Doctor.LastName)
+            @Html.DisplayFor(model => model.Doctor.FirstName)
+            @Html.DisplayFor(model => model.Doctor.Patronymic)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.WorkStart)
@@ -55,6 +57,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
+    <a asp-action="Index">Назад</a>
 </div>
+

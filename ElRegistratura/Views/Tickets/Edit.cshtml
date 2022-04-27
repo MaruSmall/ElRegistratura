@@ -1,12 +1,11 @@
 ﻿@model ElRegistratura.Models.Ticket
 
-@{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Изменение";
 }
 
-<h1>Edit</h1>
+<h1>Изменить</h1>
 
-<h4>Ticket</h4>
+<h4>Талон</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,15 +32,15 @@
                 <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
                 <span asp-validation-for="StatusId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+           <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {
