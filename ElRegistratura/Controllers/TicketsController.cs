@@ -22,7 +22,8 @@ namespace ElRegistratura.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Tickets.Include(t => t.Schedule).Include(t => t.Status).Include(t => t.User);
+            var applicationDbContext = _context.Tickets.Include(t => t.Schedule).ThenInclude(d=>d.Doctor).ThenInclude(c=>c.Clinic)
+                .Include(t => t.Status).Include(t => t.User);
             return View(await applicationDbContext.ToListAsync());
         }
 

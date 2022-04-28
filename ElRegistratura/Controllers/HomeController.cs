@@ -88,7 +88,7 @@ namespace ElRegistratura.Controllers
             return View(schedules);
         }
 
-        public IActionResult TicketsView(int id)
+        public IActionResult TicketsView(int id)//талоны
         {
             if (id == null)
             {

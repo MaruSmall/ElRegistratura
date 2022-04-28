@@ -69,22 +69,27 @@ namespace ElRegistratura.Controllers
                 _context.Add(schedule);
                 await _context.SaveChangesAsync();
                 ticket.ScheduleId = schedule.Id;
-               // ticket.StatusId = ;
-                for(int i = 0; i <= tick; i++)
+                TimeSpan time = schedule.WorkStart;
+                for (int i = 0; i < tick; i++)
                 {
-                    if(i==0)
-                    {
-                        ticket.Time = schedule.WorkStart;
-                    }
-                    else if(i==tick)
-                    {
-                        ticket.Time = schedule.WorkFinish;
-                    }
-                    else
-                    {
-                        ticket.Time = schedule.WorkStart + schedule.Duration;
-                    }
-                    //var idstatus = _context.Status.Include(s => s.Id).Where(s => s.Id == 1).FirstOrDefault();
+                    ticket.Id=Guid.NewGuid();
+                   
+                    ticket.Time = time;
+                    time = time + schedule.Duration;
+
+                    //if(i==0)
+                    //{
+                    //    ticket.Time = schedule.WorkStart;
+                    //}
+                    //else if(i==tick)
+                    //{
+                    //    ticket.Time = schedule.WorkFinish;
+                    //}
+                    //else
+                    //{
+                    //    ticket.Time = schedule.WorkStart + schedule.Duration;
+                    //}
+
                     ticket.StatusId = 1;
                     _context.Add(ticket);
                     await _context.SaveChangesAsync();

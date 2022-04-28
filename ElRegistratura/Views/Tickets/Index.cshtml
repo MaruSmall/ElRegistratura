@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<ElRegistratura.Models.Ticket>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Главная";
 }
 
-<h1>Index</h1>
-
-<p>
+<h1>Главная</h1>
+<div> <a class="navbar-brand" asp-controller="Home" asp-action="AdminView">Назад</a> </div>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -28,24 +28,28 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.OrderBy(i=>i.Time)) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Schedule.Id)
+                @Html.DisplayFor(modelItem => item.Schedule.Data)
+                @Html.DisplayFor(modelItem => item.Schedule.Doctor.LastName)
+                @Html.DisplayFor(modelItem => item.Schedule.Doctor.FirstName)
+                @Html.DisplayFor(modelItem => item.Schedule.Doctor.Patronymic)
+                @Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Time)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status.Id)
+                @Html.DisplayFor(modelItem => item.Status.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }
