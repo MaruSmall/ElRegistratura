@@ -51,7 +51,7 @@ namespace ElRegistratura.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClinicId")
+                    b.Property<int?>("ClinicId")
                         .HasColumnType("int");
 
                     b.Property<string>("Info")
@@ -284,15 +284,14 @@ namespace ElRegistratura.Migrations
 
             modelBuilder.Entity("ElRegistratura.Models.Ticket", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("Time")
@@ -577,9 +576,7 @@ namespace ElRegistratura.Migrations
                 {
                     b.HasOne("ElRegistratura.Models.Clinic", "Clinic")
                         .WithMany("Cabinets")
-                        .HasForeignKey("ClinicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClinicId");
 
                     b.Navigation("Clinic");
                 });
@@ -676,9 +673,7 @@ namespace ElRegistratura.Migrations
 
                     b.HasOne("ElRegistratura.Models.Status", "Status")
                         .WithMany("Tickets")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StatusId");
 
                     b.HasOne("ElRegistratura.Models.User", "User")
                         .WithMany("Tickets")

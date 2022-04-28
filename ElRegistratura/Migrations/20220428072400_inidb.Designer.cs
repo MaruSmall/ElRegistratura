@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElRegistratura.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220426082934_INIDB")]
-    partial class INIDB
+    [Migration("20220428072400_inidb")]
+    partial class inidb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,7 +53,7 @@ namespace ElRegistratura.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClinicId")
+                    b.Property<int?>("ClinicId")
                         .HasColumnType("int");
 
                     b.Property<string>("Info")
@@ -140,7 +140,7 @@ namespace ElRegistratura.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Patromynic")
+                    b.Property<string>("Patronymic")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PlotId")
@@ -286,15 +286,14 @@ namespace ElRegistratura.Migrations
 
             modelBuilder.Entity("ElRegistratura.Models.Ticket", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("Time")
@@ -579,9 +578,7 @@ namespace ElRegistratura.Migrations
                 {
                     b.HasOne("ElRegistratura.Models.Clinic", "Clinic")
                         .WithMany("Cabinets")
-                        .HasForeignKey("ClinicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClinicId");
 
                     b.Navigation("Clinic");
                 });
@@ -678,9 +675,7 @@ namespace ElRegistratura.Migrations
 
                     b.HasOne("ElRegistratura.Models.Status", "Status")
                         .WithMany("Tickets")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StatusId");
 
                     b.HasOne("ElRegistratura.Models.User", "User")
                         .WithMany("Tickets")

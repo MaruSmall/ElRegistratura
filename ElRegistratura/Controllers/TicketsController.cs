@@ -27,7 +27,7 @@ namespace ElRegistratura.Controllers
         }
 
         // GET: Tickets/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -50,8 +50,8 @@ namespace ElRegistratura.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
-            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Data");
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name");
+            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Name");
+            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Id");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
@@ -65,18 +65,19 @@ namespace ElRegistratura.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticket.Id = Guid.NewGuid();
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Data", ticket.ScheduleId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", ticket.StatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", ticket.UserId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Id", ticket.ScheduleId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Id", ticket.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ticket.UserId);
             return View(ticket);
         }
 
         // GET: Tickets/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -88,9 +89,9 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Data", ticket.ScheduleId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", ticket.StatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", ticket.UserId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Id", ticket.ScheduleId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Id", ticket.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ticket.UserId);
             return View(ticket);
         }
 
@@ -99,7 +100,7 @@ namespace ElRegistratura.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ScheduleId,UserId,Time,StatusId")] Ticket ticket)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,ScheduleId,UserId,Time,StatusId")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
@@ -126,14 +127,14 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Data", ticket.ScheduleId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", ticket.StatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", ticket.UserId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Id", ticket.ScheduleId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Id", ticket.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ticket.UserId);
             return View(ticket);
         }
 
         // GET: Tickets/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -156,7 +157,7 @@ namespace ElRegistratura.Controllers
         // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var ticket = await _context.Tickets.FindAsync(id);
             _context.Tickets.Remove(ticket);
@@ -164,7 +165,7 @@ namespace ElRegistratura.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TicketExists(int id)
+        private bool TicketExists(Guid id)
         {
             return _context.Tickets.Any(e => e.Id == id);
         }

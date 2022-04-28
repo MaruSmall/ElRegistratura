@@ -61,7 +61,7 @@
                    
                 </td>
                   <td>
-                  @Html.DisplayFor(modelItem => item.Id)
+                @*  @Html.DisplayFor(modelItem => item.Id)*@
                 </td>
              
            
@@ -71,6 +71,6 @@
   
 
 </table>
-<div>  <button type="submit" class="btn btn-primary "> <a class="btn-primary" asp-controller="Home" asp-action="EditTicket" asp-route-id="@item.Id">Записаться</a> </button> </div>  
+@*<div>  <button type="submit" class="btn btn-primary "> <a class="btn-primary" asp-controller="Home" asp-action="EditTicket" asp-route-id="@item.Id">Записаться</a> </button> </div>  *@
            
 }

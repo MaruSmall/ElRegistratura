@@ -59,12 +59,37 @@ namespace ElRegistratura.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Data,DoctorId,WorkStart,WorkFinish,Duration,CabinetId,IsShow")] Schedule schedule)
+        public async Task<IActionResult> Create([Bind("Id,Data,DoctorId,WorkStart,WorkFinish,Duration,CabinetId,IsShow")] Schedule schedule, Ticket ticket, Status status)
         {
+            TimeSpan hour = schedule.WorkFinish - schedule.WorkStart;
+            int tick = Convert.ToInt32(hour.TotalMinutes / schedule.Duration.TotalMinutes); 
+
             if (ModelState.IsValid)
             {
                 _context.Add(schedule);
                 await _context.SaveChangesAsync();
+                ticket.ScheduleId = schedule.Id;
+               // ticket.StatusId = ;
+                for(int i = 0; i <= tick; i++)
+                {
+                    if(i==0)
+                    {
+                        ticket.Time = schedule.WorkStart;
+                    }
+                    else if(i==tick)
+                    {
+                        ticket.Time = schedule.WorkFinish;
+                    }
+                    else
+                    {
+                        ticket.Time = schedule.WorkStart + schedule.Duration;
+                    }
+                    //var idstatus = _context.Status.Include(s => s.Id).Where(s => s.Id == 1).FirstOrDefault();
+                    ticket.StatusId = 1;
+                    _context.Add(ticket);
+                    await _context.SaveChangesAsync();
+                }
+               
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);

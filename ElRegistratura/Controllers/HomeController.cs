@@ -17,7 +17,7 @@ namespace ElRegistratura.Controllers
 {
     public class HomeController : Controller
     {
-       // private readonly ILogger<HomeController> _logger;
+        // private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
         public Guid DItem;
         private ApplicationDbContext db;
@@ -106,7 +106,7 @@ namespace ElRegistratura.Controllers
             return View(schedules);
         }
         [Authorize]
-        public IActionResult CheckDataView(int? id)
+        public IActionResult CheckDataView(Guid id)
         {
             if (id == null)
             {
@@ -124,7 +124,7 @@ namespace ElRegistratura.Controllers
         }
         // [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTicket(int id, [Bind("Id,Status,PatientId,ScheduleId")] Ticket ticket)
+        public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,Status,PatientId,ScheduleId")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
@@ -171,7 +171,7 @@ namespace ElRegistratura.Controllers
             return View("Index");
         }
 
-        private bool TicketExists(int id)
+        private bool TicketExists(Guid id)
         {
             return db.Tickets.Any(e => e.Id == id);
         }
