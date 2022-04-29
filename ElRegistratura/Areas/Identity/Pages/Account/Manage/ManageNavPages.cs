@@ -11,7 +11,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
         public static string Index => "Index";
 
         public static string Email => "Email";
-
+        public static string Tickets => "Tickets";
         public static string ChangePassword => "ChangePassword";
 
         public static string DownloadPersonalData => "DownloadPersonalData";
@@ -39,7 +39,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
 
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
-
+        public static string TicketsNavClass(ViewContext viewContext) => PageNavClass(viewContext, Tickets);
         private static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string

@@ -1,0 +1,52 @@
+﻿@page
+@model ElRegistratura.Areas.Identity.Pages.Account.Manage.TicketsSelectModel
+
+@{
+    ViewData["Title"] = "Талоны";
+}
+
+<h1>Талоны</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket[0].Schedule.Data)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket[0].User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket[0].Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket[0].Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Ticket) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Schedule.Data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+                @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |*@
+                <a asp-page="./TicketsDetails" asp-route-id="@item.Id">Подробнее</a> |
+                <a asp-controller="Home" asp-action="CancelTicket" asp-route-id="@item.Id">Отменить запись</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

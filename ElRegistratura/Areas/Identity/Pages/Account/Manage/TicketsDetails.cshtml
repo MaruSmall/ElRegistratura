@@ -1,0 +1,59 @@
+﻿@page
+@model ElRegistratura.Areas.Identity.Pages.Account.Manage.TicketsDetailsModel
+
+@{
+    ViewData["Title"] = "Подробнее";
+}
+
+<h1>Талон</h1>
+
+<div>
+   
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ticket.Schedule.Data)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticket.Schedule.Data)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ticket.Schedule.Doctor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticket.Schedule.Doctor.LastName)
+            @Html.DisplayFor(model => model.Ticket.Schedule.Doctor.FirstName)
+            @Html.DisplayFor(model => model.Ticket.Schedule.Doctor.Patronymic)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ticket.Schedule.Doctor.Clinic)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticket.Schedule.Doctor.Clinic.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ticket.Schedule.Doctor.Clinic.Street)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticket.Schedule.Doctor.Clinic.Street.Name)
+            @Html.DisplayFor(model => model.Ticket.Schedule.Doctor.Clinic.HouseNumb)
+            @Html.DisplayFor(model => model.Ticket.Schedule.Doctor.Clinic.Housing)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ticket.Time)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticket.Time)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ticket.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticket.Status.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    @*<a asp-page="./Edit" asp-route-id="@Model.Ticket.Id">Edit</a> |*@
+    <a asp-page="./TicketsSelect">Назад</a>
+</div>

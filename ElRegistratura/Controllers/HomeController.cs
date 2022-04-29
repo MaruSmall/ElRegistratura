@@ -17,7 +17,6 @@ namespace ElRegistratura.Controllers
 {
     public class HomeController : Controller
     {
-        // private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
         public Guid DItem;
         private ApplicationDbContext db;
@@ -124,7 +123,7 @@ namespace ElRegistratura.Controllers
         }
         // [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,Status,PatientId,ScheduleId")] Ticket ticket)
+        public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,Status,ScheduleId")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
@@ -138,7 +137,7 @@ namespace ElRegistratura.Controllers
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     // var sche= db.Schedules.Include(s => s.Tickets).Where(s => s.Tickets.Id==ticket.Id);
 
-                    //ticket.Status = true;
+                    ticket.StatusId = 2;
 
                     var s = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
                     //var t = db.Tickets.Include(s => s.Time).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
@@ -170,6 +169,50 @@ namespace ElRegistratura.Controllers
             // ViewData["ScheduleId"] = new SelectList(db.Schedules, "Id", "Data", ticket.ScheduleId);
             return View("Index");
         }
+
+        public async Task<IActionResult> CancelTicket(Guid id, [Bind("Id,Status,ScheduleId")] Ticket ticket)
+        {
+            if (id != ticket.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    ticket.StatusId = 1;
+                    var s = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
+                    var t =
+                    (from tic in db.Tickets
+                     where tic.Id == id
+                     select tic).AsNoTracking().FirstOrDefault();
+                    ticket.ScheduleId = s.ScheduleId;
+                    ticket.UserId = null;
+                    ticket.Time = t.Time;
+
+                    db.Update(ticket);
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TicketExists(ticket.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            //ViewData["UserId"] = new SelectList(db.Users, "Id", "UserId", ticket.UserId);
+            // ViewData["ScheduleId"] = new SelectList(db.Schedules, "Id", "Data", ticket.ScheduleId);
+            //return View("Index");
+            return View("./TicketsSelect");
+        }
+
 
         private bool TicketExists(Guid id)
         {
