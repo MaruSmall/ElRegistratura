@@ -77,6 +77,10 @@ namespace ElRegistratura
             });
 
             services.AddControllersWithViews();
+
+
+            //шифрование ид в строке запроса
+            services.AddDataProtection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

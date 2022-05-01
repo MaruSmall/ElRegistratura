@@ -22,7 +22,8 @@ namespace ElRegistratura.Controllers
         // GET: Doctors
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Doctors.Include(d => d.Category).Include(d => d.Clinic).Include(d => d.Plot).Include(d => d.Position).Include(d => d.Speciality);
+            var applicationDbContext = _context.Doctors.Include(d => d.Category).Include(d => d.Clinic).Include(d => d.Plot).
+                Include(d => d.Position).Include(d => d.Speciality);
             return View(await applicationDbContext.ToListAsync());
         }
 

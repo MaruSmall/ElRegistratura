@@ -51,8 +51,8 @@ namespace ElRegistratura.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
-            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Name");
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Id");
+            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Data");
+            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
@@ -71,9 +71,9 @@ namespace ElRegistratura.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Id", ticket.ScheduleId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Id", ticket.StatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ticket.UserId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Data", ticket.ScheduleId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", ticket.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", ticket.UserId);
             return View(ticket);
         }
 
@@ -90,9 +90,9 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Id", ticket.ScheduleId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Id", ticket.StatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ticket.UserId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Data", ticket.ScheduleId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", ticket.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", ticket.UserId);
             return View(ticket);
         }
 
@@ -128,9 +128,9 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Id", ticket.ScheduleId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Id", ticket.StatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ticket.UserId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Data", ticket.ScheduleId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", ticket.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", ticket.UserId);
             return View(ticket);
         }
 

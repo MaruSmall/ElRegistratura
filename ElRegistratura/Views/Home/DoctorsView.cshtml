@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<ElRegistratura.Models.Doctor>
+
 <h1>Врачи</h1>
 <div>
     <a class="navbar-brand" asp-controller="Home" asp-action="SpecialityDoctorsView">Назад</a>
@@ -47,6 +48,8 @@
             <td>
                 <a asp-controller="Home" asp-action="ScheduleDoctorsView" asp-route-id="@item.Id">Расписание</a> 
               
+
+             @* <a asp-controller="Home" asp-action="ScheduleDoctorsView" asp-route-id="@item.Id">Расписание</a> *@
             </td>
         </tr>
 }

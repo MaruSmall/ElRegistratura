@@ -2,6 +2,7 @@
 using ElRegistratura.Data.Data;
 using ElRegistratura.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,28 +25,30 @@ namespace ElRegistratura.Controllers
         {
             db = context;
             _userManager = userManager;
+           
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
         }
+
         [Authorize(Roles = "SuperAdmin")]
         public IActionResult AdminView()
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult ClinicsView()//поликлиники
         {
             return View(db.Clinics.Include(s => s.Street).ToList());
         }
-
+        [HttpGet]
         public IActionResult SpecialityDoctorsView(int? id)//специальность определенной поликлиники
         {
             var s = (from spec in db.Specialities
@@ -58,7 +61,7 @@ namespace ElRegistratura.Controllers
         [HttpGet]
         public IActionResult DoctorsView(int id)//врачи определенной специальности в определенной поликлиники
         {
-
+           
             var doctors = (from doc in db.Doctors.Include(s => s.Speciality)
                            where doc.SpecialityId == id
                            select doc).ToList().Distinct();
@@ -69,7 +72,7 @@ namespace ElRegistratura.Controllers
 
             return View(doctors);
         }
-
+        [HttpGet]
         public IActionResult ScheduleDoctorsView(int id)
         {
             if (id == null)
@@ -86,7 +89,7 @@ namespace ElRegistratura.Controllers
             DoctorItem.IdDoctorItem = id;
             return View(schedules);
         }
-
+        [HttpGet]
         public IActionResult TicketsView(int id)//талоны
         {
             if (id == null)
@@ -111,6 +114,7 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
+           
             var viewModel = new ViewModelTicket();
             viewModel.Ticket = db.Tickets
 
@@ -223,6 +227,31 @@ namespace ElRegistratura.Controllers
         {
 
 
+        }
+
+        [HttpGet]
+        public IActionResult SearchDoctor(string searchString)
+        {
+
+           
+            var doctors = from m in db.Doctors
+                          select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                doctors = doctors.Where(s => s.LastName.Contains(searchString));
+            }
+
+          
+            return View( doctors.ToList());
+
+
+
+        }
+        [HttpGet]
+        public IActionResult SearchTicket()
+        {
+            return View();
         }
 
 

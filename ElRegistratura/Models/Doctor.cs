@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ElRegistratura.Models
 {
@@ -16,6 +17,7 @@ namespace ElRegistratura.Models
         [Display(Name = "Фотография")]
         public byte[]? DoctorPicture { get; set; }
         [Display(Name = "Поликлиника")]
+        //[NotMapped]
         public int ClinicId { get; set; }
         [Display(Name = "Поликлиника")]
         public Clinic Clinic { get; set; }
