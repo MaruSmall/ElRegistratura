@@ -39,12 +39,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Patronymic)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Speciality.Name)
             </th>
              <th>
                 @Html.DisplayNameFor(model => model.Clinic)
-            </th>
+            </th>*@
             
             <th></th>
         </tr>
@@ -61,7 +61,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Patronymic)
             </td>
-            <td>
+           @* <td>
                  @Html.DisplayFor(modelItem => item.Speciality.Name)
             </td>
              <td>
@@ -70,7 +70,7 @@
                  @Html.DisplayFor(modelItem => item.Clinic.HouseNumb)
                  @Html.DisplayFor(modelItem => item.Clinic.Housing)
 
-            </td>
+            </td>*@
             <td>
                 <a asp-action="ScheduleDoctorsView" asp-route-id="@item.Id">Расписание</a> |
                <a asp-action="Details" asp-controller="Doctors" asp-route-id="@item.Id">Подробнее</a> 

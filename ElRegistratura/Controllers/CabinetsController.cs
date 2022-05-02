@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ElRegistratura.Data;
 using ElRegistratura.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ElRegistratura.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class CabinetsController : Controller
     {
         private readonly ApplicationDbContext _context;

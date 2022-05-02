@@ -232,22 +232,22 @@ namespace ElRegistratura.Controllers
         [HttpGet]
         public IActionResult SearchDoctor(string searchString)
         {
-
-           
             var doctors = from m in db.Doctors
                           select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                doctors = doctors.Where(s => s.LastName.Contains(searchString));
+                string[] words = searchString.Split(' ');
+                foreach (string word in words)
+                {
+                    doctors = doctors.Where(s => s.LastName.Contains(word) || s.FirstName.Contains(word) || s.Patronymic.Contains(word));
+                }
+               
             }
 
-          
             return View( doctors.ToList());
-
-
-
         }
+
         [HttpGet]
         public IActionResult SearchTicket()
         {

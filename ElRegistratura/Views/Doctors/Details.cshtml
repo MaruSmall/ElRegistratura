@@ -1,4 +1,8 @@
 ﻿@model ElRegistratura.Models.Doctor
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
 
 @{
     ViewData["Title"] = "Подробно";
@@ -66,7 +70,16 @@
         </dd>
     </dl>
 </div>
+ @if((SignInManager.IsSignedIn(User) && User.IsInRole("Admin")))
+{
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
     <a asp-action="Index">Назад</a>
-</div>
+    </div>
+}
+else
+{
+    <div>
+    <a asp-controller="Home" asp-action="SearchDoctor">Назад</a>
+    </div>
+}

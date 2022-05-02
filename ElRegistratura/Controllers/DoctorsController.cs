@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ElRegistratura.Data;
 using ElRegistratura.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ElRegistratura.Controllers
 {
+   
     public class DoctorsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,7 +20,7 @@ namespace ElRegistratura.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         // GET: Doctors
         public async Task<IActionResult> Index()
         {
@@ -49,7 +51,7 @@ namespace ElRegistratura.Controllers
 
             return View(doctor);
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         // GET: Doctors/Create
         public IActionResult Create()
         {
@@ -60,7 +62,7 @@ namespace ElRegistratura.Controllers
             ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name");
             return View();
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         // POST: Doctors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -81,7 +83,7 @@ namespace ElRegistratura.Controllers
             ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
             return View(doctor);
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         // GET: Doctors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -102,7 +104,7 @@ namespace ElRegistratura.Controllers
             ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
             return View(doctor);
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         // POST: Doctors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -142,7 +144,7 @@ namespace ElRegistratura.Controllers
             ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
             return View(doctor);
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         // GET: Doctors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -165,7 +167,7 @@ namespace ElRegistratura.Controllers
 
             return View(doctor);
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         // POST: Doctors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
