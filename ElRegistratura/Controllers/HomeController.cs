@@ -251,10 +251,6 @@ namespace ElRegistratura.Controllers
         [HttpGet]
         public IActionResult SearchTicket(Guid searchString)//c66bd62c-25c7-48dd-a6a2-e895ba414f27
         {
-            //var tickets = from m in db.Tickets
-            //              select m;//объединить с таблицей статус
-
-           
 
             if (searchString != null)
             {
