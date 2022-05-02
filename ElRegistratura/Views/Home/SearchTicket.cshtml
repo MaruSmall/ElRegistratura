@@ -1,1 +1,41 @@
-﻿Поиск талона
+﻿@model IEnumerable<ElRegistratura.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Поиск талона";
+}
+
+
+<form asp-controller="Home" asp-action="SearchTicket" method="get">
+    <p>
+        Поиск: <input type="text" name="SearchString" />
+        <input type="submit" value="Поиск" />
+    </p>  
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Номер талона
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status.Name)
+            </th>
+            
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

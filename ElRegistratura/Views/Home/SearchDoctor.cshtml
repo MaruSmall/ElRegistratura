@@ -12,21 +12,6 @@
     </p>  
 </form>
 
-@*@using (Html.BeginForm("SearchDoctor", "HomeController"))
-{
-    @Html.TextBox("LastName")
-    <input type="submit" value="Поиск" />
-}*@
-
-@*
-@using (Html.BeginForm())
-{
-    @Html.LabelFor(x => x.LastName)
-    @Html.EditorFor(x => x.LastName)
-    @Html.ValidationMessageFor(x => x.LastName)
-    <button type="submit">Search</button>
-}*@
-
 <table class="table">
     <thead>
         <tr>
