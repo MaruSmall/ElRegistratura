@@ -9,6 +9,10 @@ namespace ElRegistratura.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
+        public ApplicationDbContext()
+        {
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

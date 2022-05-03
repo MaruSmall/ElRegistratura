@@ -77,19 +77,6 @@ namespace ElRegistratura.Controllers
                     ticket.Time = time;
                     time = time + schedule.Duration;
 
-                    //if(i==0)
-                    //{
-                    //    ticket.Time = schedule.WorkStart;
-                    //}
-                    //else if(i==tick)
-                    //{
-                    //    ticket.Time = schedule.WorkFinish;
-                    //}
-                    //else
-                    //{
-                    //    ticket.Time = schedule.WorkStart + schedule.Duration;
-                    //}
-
                     ticket.StatusId = 1;
                     _context.Add(ticket);
                     await _context.SaveChangesAsync();
