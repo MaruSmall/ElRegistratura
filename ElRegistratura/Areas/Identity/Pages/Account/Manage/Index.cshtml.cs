@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using ElRegistratura.Cripto;
 using ElRegistratura.Data;
 using ElRegistratura.Models;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +20,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _context;
+        //Aes myAes = Aes.Create();
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager, ApplicationDbContext context)
@@ -56,12 +59,14 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Номер полиса"), DataType(DataType.Text), StringLength(16, MinimumLength = 16)]
             public string PolisNumber { get; set; }
 
+
             [Display(Name = "Серия"), DataType(DataType.Text)]
             public string Series { get; set; }
             [Display(Name = "Номер"), DataType(DataType.Text)]
             public string Number { get; set; }
             [Display(Name = "Кем выдан"), DataType(DataType.Text)]
             public string IssuedBy { get; set; }
+
 
             [Display(Name = "Пол")]
             public int? SexId { get; set; }
@@ -96,6 +101,19 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             var polisNumber = user.PolisNumber;
 
             var seria = user.Series;
+            //CriptoAes cripto= new CriptoAes();
+            //try
+            //{
+            //    byte[] croptoSeria = System.Text.Encoding.UTF8.GetBytes(seria);
+            //    // string roundtrip = cripto.DecryptStringFromBytes_Aes(croptoSeria, myAes.Key, myAes.IV);
+            //    seria = cripto.DecryptStringFromBytes_Aes(croptoSeria, myAes.Key, myAes.IV);
+            //}
+            //catch(Exception ex)
+            //{
+                
+            //}
+            
+
             var number = user.Number;
             var issue = user.IssuedBy;
 
@@ -146,6 +164,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
+            
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -205,6 +224,9 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             if (Input.Series != seria)
             {
                 user.Series = Input.Series;
+                //CriptoAes cripto = new CriptoAes();
+                //cripto.EncryptStringToBytes_Aes(seria, myAes.Key, myAes.IV);
+
                 await _userManager.UpdateAsync(user);
             }
 

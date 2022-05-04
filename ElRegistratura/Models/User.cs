@@ -26,11 +26,16 @@ namespace ElRegistratura.Models
         public string PolisNumber { get; set; }
 
         [Display(Name = "Серия"), DataType(DataType.Text)]
+
+
         public string Series { get; set; }
         [Display(Name = "Номер"), DataType(DataType.Text)]
         public string Number { get; set; }
         [Display(Name = "Кем выдан"), DataType(DataType.Text)]
         public string IssuedBy { get; set; }
+
+
+
         [Display(Name = "Пол")]
         public int? SexId { get; set; }
         public Sex Sex { get; set; }

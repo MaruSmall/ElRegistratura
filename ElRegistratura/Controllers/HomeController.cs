@@ -61,10 +61,11 @@ namespace ElRegistratura.Controllers
         [HttpGet]
         public IActionResult DoctorsView(int id)//врачи определенной специальности в определенной поликлиники
         {
-           
-            var doctors = (from doc in db.Doctors.Include(s => s.Speciality)
-                           where doc.SpecialityId == id
-                           select doc).ToList().Distinct();
+           var doctors=db.Doctors.Include(s=>s.Speciality).Where(s=>s.Speciality.Id==id).ToList().Distinct();
+            //var doctors = (from doc in db.Doctors.Include(s => s.Speciality)
+            //               .Include(s=>s.Schedules)
+            //               where doc.SpecialityId == id
+            //               select doc).ToList().Distinct();
             if (doctors == null)
             {
                 return NotFound();
@@ -114,12 +115,15 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-           
+            var idTicket= db.Tickets.Include(s=>s.Schedule).Where(s=>s.Id == id).First();
+            var idCabinet = db.Schedules.Include(s=>s.Cabinet).Where(s=>s.Id==idTicket.ScheduleId).FirstOrDefault();
             var viewModel = new ViewModelTicket();
             viewModel.Ticket = db.Tickets
 
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor)
                 .ThenInclude(s => s.Clinic).ThenInclude(s => s.Street)
+                .Include(s => s.Schedule).ThenInclude(s => s.Doctor)
+                .ThenInclude(s => s.Clinic).ThenInclude(s=>s.Cabinets.Where(s=>s.Id==idCabinet.CabinetId))
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor).ThenInclude(s => s.Speciality)
                 .Where(s => s.Id == id).AsNoTracking().ToList();
 

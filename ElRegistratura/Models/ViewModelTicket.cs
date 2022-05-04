@@ -10,5 +10,6 @@ namespace ElRegistratura.Models
         public IEnumerable<Doctor> Doctors { get; set; }
         public IEnumerable<Clinic> Clinic { get; set; }
         public IEnumerable<Speciality> Speciality { get; set; }
+        public IEnumerable<Cabinet> Cabinets { get; set; }
     }
 }

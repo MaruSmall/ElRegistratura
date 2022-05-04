@@ -30,6 +30,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
             Ticket = await _context.Tickets
                 .Include(t => t.Schedule).ThenInclude(s=>s.Doctor).ThenInclude(s=>s.Clinic).ThenInclude(s=>s.Street)
+                .Include(t=>t.Schedule).ThenInclude(t=>t.Cabinet)
                 .Include(t => t.Status)
                 .Include(t => t.User).FirstOrDefaultAsync(m => m.Id == id);
 

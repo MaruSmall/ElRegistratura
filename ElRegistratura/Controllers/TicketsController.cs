@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ElRegistratura.Data;
 using ElRegistratura.Models;
+using CSharpVitamins;
 
 namespace ElRegistratura.Controllers
 {
@@ -67,6 +68,8 @@ namespace ElRegistratura.Controllers
             if (ModelState.IsValid)
             {
                 ticket.Id = Guid.NewGuid();
+                ShortGuid sguid1 = ticket.Id;
+                ticket.Id = sguid1;
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ElRegistratura.Data;
 using ElRegistratura.Models;
+using CSharpVitamins;
 
 namespace ElRegistratura.Controllers
 {
@@ -73,7 +74,8 @@ namespace ElRegistratura.Controllers
                 for (int i = 0; i < tick; i++)
                 {
                     ticket.Id=Guid.NewGuid();
-                   
+                    ShortGuid sguid1 = ticket.Id;
+                    ticket.Id = sguid1;
                     ticket.Time = time;
                     time = time + schedule.Duration;
 

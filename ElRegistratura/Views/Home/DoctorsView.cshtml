@@ -16,13 +16,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Patronymic)
             </th>
-             @* <th>
-                @Html.DisplayNameFor(model => model.Cabinet)
-            </th>*@
-             
+              
               <th>
                 @Html.DisplayNameFor(model => model.Speciality.Name)
             </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -38,13 +36,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Patronymic)
             </td>
-           @* <td>
-                @Html.DisplayFor(modelItem => item.Cabinet)
-            </td>*@
+          
            
             <td>
                 @Html.DisplayFor(modelItem => item.Speciality.Name)
             </td>
+              
             <td>
                 <a asp-controller="Home" asp-action="ScheduleDoctorsView" asp-route-id="@item.Id">Расписание</a> 
               
