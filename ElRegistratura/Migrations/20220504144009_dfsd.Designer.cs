@@ -4,14 +4,16 @@ using ElRegistratura.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ElRegistratura.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220504144009_dfsd")]
+    partial class dfsd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,8 +131,8 @@ namespace ElRegistratura.Migrations
                     b.Property<int>("ClinicId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DoctorPicture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("DoctorPicture")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FIO")
                         .HasColumnType("nvarchar(max)");

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ElRegistratura.Data;
 using ElRegistratura.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace ElRegistratura.Controllers
 {
@@ -72,7 +74,10 @@ namespace ElRegistratura.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var clinicName= _context.Clinics
+                doctor.FIO=doctor.LastName+" "+doctor.FirstName+" "+doctor.Patronymic+" "+doctor.Clinic.Name;
                 _context.Add(doctor);
+               
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

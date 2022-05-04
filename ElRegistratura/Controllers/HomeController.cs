@@ -130,7 +130,7 @@ namespace ElRegistratura.Controllers
             return View(viewModel);
         }
         // [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,Status,ScheduleId")] Ticket ticket)
         {
             if (id != ticket.Id)
@@ -215,9 +215,7 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["UserId"] = new SelectList(db.Users, "Id", "UserId", ticket.UserId);
-            // ViewData["ScheduleId"] = new SelectList(db.Schedules, "Id", "Data", ticket.ScheduleId);
-            //return View("Index");
+            
             return View("./TicketsSelect");
         }
 

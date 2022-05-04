@@ -50,8 +50,9 @@ namespace ElRegistratura.Controllers
         // GET: Schedules/Create
         public IActionResult Create()
         {
+            
             ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name");
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LastName");
+           ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO");
             return View();
         }
 
@@ -86,8 +87,9 @@ namespace ElRegistratura.Controllers
                
                 return RedirectToAction(nameof(Index));
             }
+           
             ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LastName", schedule.DoctorId);
+            ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO", schedule.DoctorId);
             return View(schedule);
         }
 

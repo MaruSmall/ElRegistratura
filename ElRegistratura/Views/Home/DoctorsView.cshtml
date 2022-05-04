@@ -7,6 +7,9 @@
 <table class="table">
     <thead>
         <tr>
+             <th>
+                @Html.DisplayNameFor(model => model.DoctorPicture)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
@@ -27,6 +30,15 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+               @* @if(item.DoctorPicture!=null)
+                {*@
+                @*  <img src='@Url.Content(item.DoctorPicture)'/>*@
+                  @*<img src="~/Images/1.png" />*@
+                  <img src="@Url.Content(item.DoctorPicture)"/>
+                @*}*@
+               
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>

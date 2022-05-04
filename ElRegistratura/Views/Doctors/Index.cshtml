@@ -57,10 +57,14 @@
                 @Html.DisplayFor(modelItem => item.Patronymic)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DoctorPicture)
+                @if(item.DoctorPicture!=null)
+                {
+                  <img src="@Url.Content(item.DoctorPicture)" />
+                }
+               
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Clinic.HouseNumb)
+                @Html.DisplayFor(modelItem => item.Clinic.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)

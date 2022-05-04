@@ -77,6 +77,7 @@ namespace ElRegistratura
             });
 
             services.AddControllersWithViews();
+           
 
 
             //шифрование ид в строке запроса
@@ -99,7 +100,7 @@ namespace ElRegistratura
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseRouting();
 
             app.UseAuthentication();
