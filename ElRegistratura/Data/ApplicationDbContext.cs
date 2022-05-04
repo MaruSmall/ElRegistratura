@@ -29,7 +29,7 @@ namespace ElRegistratura.Data
         public DbSet<Speciality> Specialities { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Street> Street { get; set; }
-
+        public DbSet<Sex> Sex { get; set; }
         public DbSet<Status> Status { get; set; }
     }
 }

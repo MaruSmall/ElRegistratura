@@ -237,6 +237,21 @@ namespace ElRegistratura.Migrations
                     b.ToTable("Schedules");
                 });
 
+            modelBuilder.Entity("ElRegistratura.Models.Sex", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sex");
+                });
+
             modelBuilder.Entity("ElRegistratura.Models.Speciality", b =>
                 {
                     b.Property<int>("Id")
@@ -390,8 +405,8 @@ namespace ElRegistratura.Migrations
                     b.Property<string>("Series")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Sex")
-                        .HasColumnType("bit");
+                    b.Property<int>("SexId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("StreetId")
                         .HasColumnType("int");
@@ -412,6 +427,8 @@ namespace ElRegistratura.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("SexId");
 
                     b.HasIndex("StreetId");
 
@@ -688,9 +705,17 @@ namespace ElRegistratura.Migrations
 
             modelBuilder.Entity("ElRegistratura.Models.User", b =>
                 {
+                    b.HasOne("ElRegistratura.Models.Sex", "Sex")
+                        .WithMany("Users")
+                        .HasForeignKey("SexId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ElRegistratura.Models.Street", "Street")
                         .WithMany("Users")
                         .HasForeignKey("StreetId");
+
+                    b.Navigation("Sex");
 
                     b.Navigation("Street");
                 });
@@ -783,6 +808,11 @@ namespace ElRegistratura.Migrations
             modelBuilder.Entity("ElRegistratura.Models.Schedule", b =>
                 {
                     b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("ElRegistratura.Models.Sex", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("ElRegistratura.Models.Speciality", b =>

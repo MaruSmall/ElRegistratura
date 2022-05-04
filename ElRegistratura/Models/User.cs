@@ -32,7 +32,8 @@ namespace ElRegistratura.Models
         [Display(Name = "Кем выдан"), DataType(DataType.Text)]
         public string IssuedBy { get; set; }
         [Display(Name = "Пол")]
-        public bool? Sex { get; set; }
+        public int? SexId { get; set; }
+        public Sex Sex { get; set; }
 
         [Display(Name = "Улица")]
         public int? StreetId { get; set; }

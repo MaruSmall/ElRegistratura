@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ElRegistratura.Data;
 using ElRegistratura.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 {
@@ -14,13 +17,14 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-
+        private readonly ApplicationDbContext _context;
         public IndexModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
         [Display(Name = "Имя пользователя")]
         public string Username { get; set; }
@@ -60,7 +64,9 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             public string IssuedBy { get; set; }
 
             [Display(Name = "Пол")]
-            public bool? Sex { get; set; }
+            public int? SexId { get; set; }
+            [Display(Name = "Пол")]
+            public Sex Sex { get; set; }
             [Display(Name = "Улица")]
             public int? StreetId { get; set; }
             [Display(Name = "Улица")]
@@ -78,6 +84,9 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(User user)
         {
+
+            ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name");
+            ViewData["SexId"] = new SelectList(_context.Sex, "Id", "Name");
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var lastName = user.LastName;
@@ -85,11 +94,14 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             var patronymic = user.Patronymic;
             var bday = user.Birthday;
             var polisNumber = user.PolisNumber;
+
             var seria = user.Series;
             var number = user.Number;
             var issue = user.IssuedBy;
-            var sex = user.Sex;
-            var street = user.Street;
+
+            var sex = user.SexId;
+            var street = user.StreetId;
+
             var houseNumber = user.HouseNumber;
             var housing = user.Housing;
             var apartament = user.Apartment;
@@ -104,16 +116,20 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                 Patronymic = patronymic,
                 Birthday = bday,
                 PolisNumber = polisNumber,
+
                 Series = seria,
                 Number = number,
                 IssuedBy = issue,
-                Sex = sex,
-                Street = street,
+
+                SexId = sex,
+                StreetId = street,
+
                 HouseNumber = houseNumber,
                 Housing = housing,
                 Apartment = apartament
             };
         }
+
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -124,6 +140,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             }
 
             await LoadAsync(user);
+
             return Page();
         }
 
@@ -146,11 +163,14 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             var patronymic = user.Patronymic;
             var bday = user.Birthday;
             var polisNumber = user.PolisNumber;
+
             var seria = user.Series;
             var number = user.Number;
             var issued = user.IssuedBy;
-            var sex = user.Sex;
-            var street = user.Street;
+
+            var sex = user.SexId;
+            var street = user.StreetId;
+
             var houseNumber = user.HouseNumber;
             var housing = user.Housing;
             var apartament = user.Apartment;
@@ -180,6 +200,8 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                 user.PolisNumber = Input.PolisNumber;
                 await _userManager.UpdateAsync(user);
             }
+
+
             if (Input.Series != seria)
             {
                 user.Series = Input.Series;
@@ -197,17 +219,24 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                 user.IssuedBy = Input.IssuedBy;
                 await _userManager.UpdateAsync(user);
             }
-            if (Input.Sex != sex)
+
+
+            if (Input.SexId != sex)
             {
-                user.Sex = Input.Sex;
+                ViewData["SexId"] = new SelectList(_context.Street, "Id", "Name", user.SexId);
+                user.SexId = Input.SexId;
+                await _userManager.UpdateAsync(user);
+
+            }
+
+            if (Input.StreetId != street)
+            {
+                ViewData["StreetId"] = new SelectList(_context.Street, "Id", "Name", user.StreetId);
+                user.StreetId = Input.StreetId;
                 await _userManager.UpdateAsync(user);
             }
 
-            if (Input.Street != street)
-            {
-                user.Street = Input.Street;
-                await _userManager.UpdateAsync(user);
-            }
+
             if (Input.HouseNumber != houseNumber)
             {
                 user.HouseNumber = Input.HouseNumber;
@@ -235,8 +264,11 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
+
             StatusMessage = "Ваш профиль был обновлен";
             return RedirectToPage();
         }
+
+      
     }
 }

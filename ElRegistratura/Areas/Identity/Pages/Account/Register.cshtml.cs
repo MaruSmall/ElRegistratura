@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using ElRegistratura.Data;
 using System.Net.Mail;
+using System.Security.Cryptography;
 
 namespace ElRegistratura.Areas.Identity.Pages.Account
 {
@@ -78,6 +79,9 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
+       
+
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -88,7 +92,9 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
 
                 MailAddress address = new MailAddress(Input.Email);
                 string userName = address.User;
+               
 
+            
                 var user = new User
                 {
                     UserName = userName,

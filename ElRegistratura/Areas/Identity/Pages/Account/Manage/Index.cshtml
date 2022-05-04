@@ -55,15 +55,15 @@
               
                <div class="form-group">
                 <label asp-for="Input.Sex"></label>
-                <input asp-for="Input.Sex" class="form-control" />
-                <span asp-validation-for="Input.Sex" class="text-danger"></span>
+                <select asp-for="Input.SexId" class ="form-control" asp-items="ViewBag.SexId"></select>
+                <span asp-validation-for="Input.SexId" class="text-danger"></span>
             </div>
            
 
              <div class="form-group">
                 <label asp-for="Input.Street"></label>
-                <input asp-for="Input.Street" class="form-control" />
-                <span asp-validation-for="Input.Street" class="text-danger"></span>
+                <select asp-for="Input.StreetId" class ="form-control" asp-items="ViewBag.StreetId"></select>
+                <span asp-validation-for="Input.StreetId" class="text-danger"></span>
             </div>
              <div class="form-group">
                 <label asp-for="Input.HouseNumber"></label>

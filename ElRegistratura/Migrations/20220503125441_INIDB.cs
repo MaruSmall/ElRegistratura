@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ElRegistratura.Migrations
 {
-    public partial class inidb : Migration
+    public partial class INIDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,19 @@ namespace ElRegistratura.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Positions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sex",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sex", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,7 +133,7 @@ namespace ElRegistratura.Migrations
                     Series = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IssuedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Sex = table.Column<bool>(type: "bit", nullable: true),
+                    SexId = table.Column<int>(type: "int", nullable: false),
                     StreetId = table.Column<int>(type: "int", nullable: true),
                     HouseNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Housing = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -143,6 +156,12 @@ namespace ElRegistratura.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Sex_SexId",
+                        column: x => x.SexId,
+                        principalTable: "Sex",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Street_StreetId",
                         column: x => x.StreetId,
@@ -485,6 +504,11 @@ namespace ElRegistratura.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_SexId",
+                table: "AspNetUsers",
+                column: "SexId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_StreetId",
                 table: "AspNetUsers",
                 column: "StreetId");
@@ -596,6 +620,9 @@ namespace ElRegistratura.Migrations
 
             migrationBuilder.DropTable(
                 name: "Status");
+
+            migrationBuilder.DropTable(
+                name: "Sex");
 
             migrationBuilder.DropTable(
                 name: "Cabinets");
