@@ -251,17 +251,20 @@ namespace ElRegistratura.Controllers
         }
 
         [HttpGet]
-        public IActionResult SearchTicket(Guid searchString)//c66bd62c-25c7-48dd-a6a2-e895ba414f27
+        public IActionResult SearchTicket(string searchString)//c66bd62c-25c7-48dd-a6a2-e895ba414f27
         {
 
-            if (searchString != null)
+            //if (searchString != null)//c guid все работает
+            //{
+            //    return View(db.Tickets.Include(s => s.Status).Where(s => s.Number == searchString).ToList());
+            //}
+            var ticket = db.Tickets.Where(s => s.Number == " ");
+            if(!String.IsNullOrEmpty(searchString))//1871108196
             {
-                var tickets = db.Tickets.Include(s => s.Status).Where(s => s.Id == searchString);
-                return View(tickets);
+                var tickets = db.Tickets.Include(s => s.Status).Where(s => s.Number == searchString);
+                return View(tickets.ToList());
             }
-
-           
-            return View();
+            return View(ticket);
         }
 
 

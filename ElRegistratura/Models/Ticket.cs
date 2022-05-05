@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSharpVitamins;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,5 +23,7 @@ namespace ElRegistratura.Models
         public int? StatusId { get; set; }
         [Display(Name = "Статус")]
         public Status Status { get; set; }
+        [Display(Name ="Номер талона")]
+        public string Number { get; set; }
     }
 }

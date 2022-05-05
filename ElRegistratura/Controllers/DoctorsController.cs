@@ -75,7 +75,7 @@ namespace ElRegistratura.Controllers
             if (ModelState.IsValid)
             {
                 //var clinicName= _context.Clinics
-                doctor.FIO=doctor.LastName+" "+doctor.FirstName+" "+doctor.Patronymic+" "+doctor.Clinic.Name;
+                doctor.FIO=doctor.LastName+" "+doctor.FirstName+" "+doctor.Patronymic;
                 _context.Add(doctor);
                
                 await _context.SaveChangesAsync();
@@ -115,7 +115,7 @@ namespace ElRegistratura.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LastName,FirstName,Patronymic,DoctorPicture,ClinicId,CategoryId,PositionId,SpecialityId,PlotId")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LastName,FirstName,Patronymic,DoctorPicture,ClinicId,CategoryId,PositionId,SpecialityId,PlotId, FIO")] Doctor doctor)
         {
             if (id != doctor.Id)
             {

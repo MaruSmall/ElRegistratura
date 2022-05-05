@@ -31,12 +31,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-               @* @if(item.DoctorPicture!=null)
-                {*@
-                @*  <img src='@Url.Content(item.DoctorPicture)'/>*@
-                  @*<img src="~/Images/1.png" />*@
+              
                   <img src="@Url.Content(item.DoctorPicture)"/>
-                @*}*@
+                
                
             </td>
             <td>

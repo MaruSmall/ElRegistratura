@@ -51,7 +51,7 @@ namespace ElRegistratura.Controllers
         public IActionResult Create()
         {
             
-            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name");
+           ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name");
            ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO");
             return View();
         }
@@ -74,9 +74,8 @@ namespace ElRegistratura.Controllers
                 TimeSpan time = schedule.WorkStart;
                 for (int i = 0; i < tick; i++)
                 {
-                    ticket.Id=Guid.NewGuid();
-                    ShortGuid sguid1 = ticket.Id;
-                    ticket.Id = sguid1;
+                    ticket.Id  = new Guid();
+                    ticket.Number = new Random().Next().ToString();
                     ticket.Time = time;
                     time = time + schedule.Duration;
 
