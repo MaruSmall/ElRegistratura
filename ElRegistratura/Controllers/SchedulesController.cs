@@ -75,7 +75,9 @@ namespace ElRegistratura.Controllers
                 for (int i = 0; i < tick; i++)
                 {
                     ticket.Id  = new Guid();
-                    ticket.Number = new Random().Next().ToString();
+                    Random rnd = new Random();
+                    
+                    ticket.Number = new Random().Next(10000, 100000).ToString();
                     ticket.Time = time;
                     time = time + schedule.Duration;
 

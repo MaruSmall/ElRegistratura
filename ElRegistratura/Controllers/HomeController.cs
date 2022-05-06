@@ -129,9 +129,9 @@ namespace ElRegistratura.Controllers
 
             return View(viewModel);
         }
-        // [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,Status,ScheduleId")] Ticket ticket)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,StatusId,UserId")] Ticket ticket)//84d9cf17-3224-40cc-9f1e-08da2e5d1d29
         {
             if (id != ticket.Id)
             {
@@ -153,10 +153,11 @@ namespace ElRegistratura.Controllers
                     (from tic in db.Tickets
                      where tic.Id == id
                      select tic).AsNoTracking().FirstOrDefault();
+                    var n=db.Tickets.Include(s=>s.Number).Where(s=>s.Id == id).AsNoTracking().FirstOrDefault();
                     ticket.ScheduleId = s.ScheduleId;
                     ticket.UserId = userId;
                     ticket.Time = t.Time;
-
+                    ticket.Number=n.Number;
                     db.Update(ticket);
                     await db.SaveChangesAsync();
                 }
@@ -173,12 +174,11 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["UserId"] = new SelectList(db.Users, "Id", "UserId", ticket.UserId);
-            // ViewData["ScheduleId"] = new SelectList(db.Schedules, "Id", "Data", ticket.ScheduleId);
+           
             return View("Index");
         }
 
-        public async Task<IActionResult> CancelTicket(Guid id, [Bind("Id,Status,ScheduleId")] Ticket ticket)
+        public async Task<IActionResult> CancelTicket(Guid id, [Bind("Id,StatusId,UserId")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
@@ -213,10 +213,10 @@ namespace ElRegistratura.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View("./Index");
             }
             
-            return View("./TicketsSelect");
+            return View("./Index");
         }
 
 

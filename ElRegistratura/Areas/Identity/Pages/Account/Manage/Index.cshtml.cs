@@ -49,8 +49,9 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Имя пользователя")]
             public string UserName { get; set; }
+
             [Phone]
-            [Display(Name = "Номер телефона")]
+            [Display(Name = "Номер телефона"), DataType(DataType.PhoneNumber), StringLength(11)]
             public string PhoneNumber { get; set; }
 
             [Display(Name = "Дата Рождения"), DataType(DataType.Date)]
