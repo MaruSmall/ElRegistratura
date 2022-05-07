@@ -3,27 +3,41 @@
 @{
     ViewData["Title"] = "Расписание";
 }
+@if (true)
+{
+    int docId = 0;
+    @foreach (var item in Model)
+    {
+        docId = item.Doctor.SpecialityId;
+    }
+    <div>
+        <a class="navbar-brand" asp-controller="Home" asp-action="DoctorsView" asp-route-id=@docId >Назад</a>
+    </div>
+}
+
 
 <h1>Расписание</h1>
-
-
-  <div class="align-content-xl-end">
-     @Html.DisplayNameFor(model => model.Data)
-</div>
-
 <div>
-    @foreach(var item in Model.OrderBy(d=>d.Data))
+    @if(Model.ToList()==null)
     {
-        @if(item.IsShow==true & item.Data>=DateTime.Today)
-        {
+        <h2>Расписания нет</h2>
+    }
+    else
+    {
+         @foreach(var item in Model.OrderBy(d=>d.Data))
+    {
+        
+            @if(item.IsShow==true & item.Data>=DateTime.Today){
+        
                 <button type="submit" class="btn btn-primary">
             <a class="btn-primary" asp-area="" asp-action="TicketsView" asp-route-id="@item.Id">
                 @Html.DisplayFor(modelItem => item.Data)
             </a>
         </button>
         }
-
-    } 
+    }
+    }
+    
 
 </div>  
 

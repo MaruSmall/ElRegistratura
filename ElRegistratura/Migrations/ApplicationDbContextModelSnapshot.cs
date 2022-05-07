@@ -205,15 +205,20 @@ namespace ElRegistratura.Migrations
 
             modelBuilder.Entity("ElRegistratura.Models.Schedule", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CabinetId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateFinish")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DoctorId")
@@ -309,8 +314,8 @@ namespace ElRegistratura.Migrations
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ScheduleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");

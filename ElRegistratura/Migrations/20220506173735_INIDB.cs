@@ -133,7 +133,7 @@ namespace ElRegistratura.Migrations
                     Series = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IssuedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SexId = table.Column<int>(type: "int", nullable: false),
+                    SexId = table.Column<int>(type: "int", nullable: true),
                     StreetId = table.Column<int>(type: "int", nullable: true),
                     HouseNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Housing = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -161,7 +161,7 @@ namespace ElRegistratura.Migrations
                         column: x => x.SexId,
                         principalTable: "Sex",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Street_StreetId",
                         column: x => x.StreetId,
@@ -355,7 +355,8 @@ namespace ElRegistratura.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DoctorPicture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    FIO = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoctorPicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClinicId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     PositionId = table.Column<int>(type: "int", nullable: false),
@@ -401,15 +402,16 @@ namespace ElRegistratura.Migrations
                 name: "Schedules",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     WorkStart = table.Column<TimeSpan>(type: "time", nullable: false),
                     WorkFinish = table.Column<TimeSpan>(type: "time", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     CabinetId = table.Column<int>(type: "int", nullable: false),
-                    IsShow = table.Column<bool>(type: "bit", nullable: false)
+                    IsShow = table.Column<bool>(type: "bit", nullable: false),
+                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateFinish = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -433,10 +435,11 @@ namespace ElRegistratura.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ScheduleId = table.Column<int>(type: "int", nullable: false),
+                    ScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Time = table.Column<TimeSpan>(type: "time", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: true)
+                    StatusId = table.Column<int>(type: "int", nullable: true),
+                    Number = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

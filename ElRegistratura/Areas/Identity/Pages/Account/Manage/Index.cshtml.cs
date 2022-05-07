@@ -142,14 +142,11 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
                 SexId = sex,
                 StreetId = street,
-
                 HouseNumber = houseNumber,
                 Housing = housing,
                 Apartment = apartament
             };
         }
-
-
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -165,7 +162,6 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -221,7 +217,6 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                 await _userManager.UpdateAsync(user);
             }
 
-
             if (Input.Series != seria)
             {
                 user.Series = Input.Series;
@@ -243,7 +238,6 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                 await _userManager.UpdateAsync(user);
             }
 
-
             if (Input.SexId != sex)
             {
                 ViewData["SexId"] = new SelectList(_context.Street, "Id", "Name", user.SexId);
@@ -258,7 +252,6 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                 user.StreetId = Input.StreetId;
                 await _userManager.UpdateAsync(user);
             }
-
 
             if (Input.HouseNumber != houseNumber)
             {

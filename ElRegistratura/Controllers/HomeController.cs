@@ -51,10 +51,12 @@ namespace ElRegistratura.Controllers
         [HttpGet]
         public IActionResult SpecialityDoctorsView(int? id)//специальность определенной поликлиники
         {
+            DoctorItem.IdSpec = id;
             var s = (from spec in db.Specialities
                      from doc in db.Doctors
                      where spec.Id == doc.SpecialityId && doc.ClinicId == id
                      select spec).ToList().Distinct();
+
             return View(s);
         }
 
@@ -90,8 +92,9 @@ namespace ElRegistratura.Controllers
             DoctorItem.IdDoctorItem = id;
             return View(schedules);
         }
+
         [HttpGet]
-        public IActionResult TicketsView(int id)//талоны
+        public IActionResult TicketsView(Guid id)//талоны
         {
             if (id == null)
             {
@@ -108,6 +111,7 @@ namespace ElRegistratura.Controllers
             //DoctorItem.IdTicket= id;
             return View(schedules);
         }
+
         [Authorize]
         public IActionResult CheckDataView(Guid id)
         {
@@ -127,7 +131,7 @@ namespace ElRegistratura.Controllers
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor).ThenInclude(s => s.Speciality)
                 .Where(s => s.Id == id).AsNoTracking().ToList();
 
-            return View(viewModel);
+            return View(viewModel);//отправлять талон на эл.почту
         }
         //[HttpPost]
         //[ValidateAntiForgeryToken]
@@ -137,23 +141,21 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-
+            //ticket.Number = ticket.Number;
             if (ModelState.IsValid)
             {
                 try
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     // var sche= db.Schedules.Include(s => s.Tickets).Where(s => s.Tickets.Id==ticket.Id);
-
                     ticket.StatusId = 2;
-
                     var s = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
                     //var t = db.Tickets.Include(s => s.Time).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
                     var t =
-                    (from tic in db.Tickets
-                     where tic.Id == id
-                     select tic).AsNoTracking().FirstOrDefault();
-                    var n=db.Tickets.Include(s=>s.Number).Where(s=>s.Id == id).AsNoTracking().FirstOrDefault();
+                            (from tic in db.Tickets
+                             where tic.Id == id
+                             select tic).AsNoTracking().FirstOrDefault();
+                    var n=db.Tickets.Where(s=>s.Id == id).AsNoTracking().FirstOrDefault();
                     ticket.ScheduleId = s.ScheduleId;
                     ticket.UserId = userId;
                     ticket.Time = t.Time;
@@ -172,7 +174,7 @@ namespace ElRegistratura.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("MessageTicketGood");
             }
            
             return View("Index");
@@ -195,9 +197,11 @@ namespace ElRegistratura.Controllers
                     (from tic in db.Tickets
                      where tic.Id == id
                      select tic).AsNoTracking().FirstOrDefault();
+                    var n = db.Tickets.Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
                     ticket.ScheduleId = s.ScheduleId;
                     ticket.UserId = null;
                     ticket.Time = t.Time;
+                    ticket.Number = n.Number;
 
                     db.Update(ticket);
                     await db.SaveChangesAsync();
@@ -213,22 +217,15 @@ namespace ElRegistratura.Controllers
                         throw;
                     }
                 }
-                return View("./Index");
+                return View("MessageTicketCancel");
             }
             
             return View("./Index");
         }
 
-
         private bool TicketExists(Guid id)
         {
             return db.Tickets.Any(e => e.Id == id);
-        }
-
-        public void ScheduleIdTicket(int id, [Bind("Id,Time,Status,PatientId,ScheduleId")] Ticket ticket)
-        {
-
-
         }
 
         [HttpGet]
@@ -267,7 +264,14 @@ namespace ElRegistratura.Controllers
             return View(ticket);
         }
 
-
+        public IActionResult MessageTicketGood()
+        {
+            return View();
+        }
+        public IActionResult MessageTicketCancel()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

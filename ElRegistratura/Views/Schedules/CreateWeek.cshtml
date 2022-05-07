@@ -1,0 +1,69 @@
+﻿@model ElRegistratura.Models.Schedule
+
+@{
+    ViewData["Title"] = "Создание";
+}
+
+<h1>Создать </h1>
+
+<h4>Расписание на несколько дней</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateWeek" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DateStart" class="control-label"></label>
+                <input asp-for="DateStart" class="form-control" />
+                <span asp-validation-for="DateStart" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="DateFinish" class="control-label"></label>
+                <input asp-for="DateFinish" class="form-control" />
+                <span asp-validation-for="DateFinish" class="text-danger"></span>
+            </div>
+           
+                <div class="form-group">
+                <label asp-for="DoctorId" class="control-label"></label>
+                <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorFIO"></select>
+            </div>
+            
+            
+            <div class="form-group">
+                <label asp-for="WorkStart" class="control-label"></label>
+                <input asp-for="WorkStart" class="form-control" type="time" />
+                <span asp-validation-for="WorkStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkFinish" class="control-label"></label>
+                <input asp-for="WorkFinish" class="form-control" type="time"/>
+                <span asp-validation-for="WorkFinish" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" type="time"/>
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CabinetId" class="control-label"></label>
+                <select asp-for="CabinetId" class ="form-control" asp-items="ViewBag.CabinetId"></select>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsShow" /> @Html.DisplayNameFor(model => model.IsShow)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

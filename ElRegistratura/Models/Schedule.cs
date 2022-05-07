@@ -6,8 +6,7 @@ namespace ElRegistratura.Models
 {
     public class Schedule
     {
-        public int Id { get; set; }
-
+        public Guid Id { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Дата")]
         public DateTime Data { get; set; }
@@ -28,7 +27,10 @@ namespace ElRegistratura.Models
         public Cabinet Cabinet { get; set; }
         [Display(Name = "Показ расписания врача")]
         public bool IsShow { get; set; }
-
+        [DataType(DataType.Date)]
+        public DateTime DateStart { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateFinish { get; set; }
         public List<Ticket> Tickets { get; set; }
 
     }

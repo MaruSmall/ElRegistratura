@@ -6,5 +6,6 @@ namespace ElRegistratura.Data.Data
     {
         public static int IdDoctorItem { get; set; }
         public static int IdTicket { get; set; }
+        public static int? IdSpec { get; set; }
     }
 }

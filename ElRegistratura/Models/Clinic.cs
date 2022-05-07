@@ -6,7 +6,7 @@ namespace ElRegistratura.Models
     public class Clinic
     {
         public int Id { get; set; }
-        [Display(Name = "Поликлиника"), Required]
+        [Display(Name = "Поликлиника"), Required(ErrorMessage = "Обязательное поле")]
         public string Name { get; set; }
         [Display(Name = "Улица"), Required]
         public int StreetId { get; set; }

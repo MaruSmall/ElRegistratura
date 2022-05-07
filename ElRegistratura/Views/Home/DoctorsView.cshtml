@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<ElRegistratura.Models.Doctor>
 
 <h1>Врачи</h1>
-<div>
-    <a class="navbar-brand" asp-controller="Home" asp-action="SpecialityDoctorsView">Назад</a>
+@foreach (var item in Model)
+{
+    <div>
+    <a class="navbar-brand" asp-controller="Home" asp-action="SpecialityDoctorsView" asp-route-id=@item.SpecialityId >Назад</a>
 </div>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -31,10 +35,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-              
-                  <img src="@Url.Content(item.DoctorPicture)"/>
-                
-               
+              <img src="@Url.Content(item.DoctorPicture)"/>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)

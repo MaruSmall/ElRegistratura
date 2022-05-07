@@ -10,7 +10,7 @@ namespace ElRegistratura.Models
      
        public Guid Id { get; set; }
         [Display(Name = "Расписание")]
-        public int ScheduleId { get; set; }
+        public Guid ScheduleId { get; set; }
         [Display(Name = "Расписание")]
         public Schedule Schedule { get; set; }
         [Display(Name = "Пользватель")]

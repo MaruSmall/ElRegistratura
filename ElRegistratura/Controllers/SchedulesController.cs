@@ -28,7 +28,7 @@ namespace ElRegistratura.Controllers
         }
 
         // GET: Schedules/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -72,6 +72,7 @@ namespace ElRegistratura.Controllers
                 await _context.SaveChangesAsync();
                 ticket.ScheduleId = schedule.Id;
                 TimeSpan time = schedule.WorkStart;
+                
                 for (int i = 0; i < tick; i++)
                 {
                     ticket.Id  = new Guid();
@@ -95,7 +96,7 @@ namespace ElRegistratura.Controllers
         }
 
         // GET: Schedules/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -117,7 +118,7 @@ namespace ElRegistratura.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Data,DoctorId,WorkStart,WorkFinish,Duration,CabinetId,IsShow")] Schedule schedule)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Data,DoctorId,WorkStart,WorkFinish,Duration,CabinetId,IsShow")] Schedule schedule)
         {
             if (id != schedule.Id)
             {
@@ -150,7 +151,7 @@ namespace ElRegistratura.Controllers
         }
 
         // GET: Schedules/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -180,7 +181,69 @@ namespace ElRegistratura.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ScheduleExists(int id)
+
+
+        public IActionResult CreateWeek()
+        {
+
+            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name");
+            ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO");
+            return View();
+        }
+
+        // POST: Schedules/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateWeek([Bind("Id,DateStart, DateFinish,DoctorId,WorkStart,WorkFinish,Duration,CabinetId,IsShow")] Schedule schedule, Ticket ticket, Status status)
+        {
+            TimeSpan hour = schedule.WorkFinish - schedule.WorkStart;
+            int tick = Convert.ToInt32(hour.TotalMinutes / schedule.Duration.TotalMinutes);
+
+            if (ModelState.IsValid)
+            {
+                var countDays=schedule.DateFinish- schedule.DateStart;
+                var data = schedule.DateStart;
+                //schedule.Data = schedule.DateStart;
+
+                for(int k=0; k<=countDays.Days;k++)
+                {
+                    schedule.Id = new Guid();
+                    schedule.Data = data;
+                    schedule.DateStart = schedule.DateStart.AddDays(1);
+                    data = schedule.DateStart;
+                    _context.Add(schedule);
+                    await _context.SaveChangesAsync();
+
+                    ticket.ScheduleId = schedule.Id;
+                    TimeSpan time = schedule.WorkStart;
+
+                    for (int i = 0; i < tick; i++)
+                    {
+                        ticket.Id = new Guid();
+                        Random rnd = new Random();
+
+                        ticket.Number = new Random().Next(10000, 100000).ToString();
+                        ticket.Time = time;
+                        time = time + schedule.Duration;
+
+                        ticket.StatusId = 1;
+                        _context.Add(ticket);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+               
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
+            ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO", schedule.DoctorId);
+            return View(schedule);
+        }
+
+        private bool ScheduleExists(Guid id)
         {
             return _context.Schedules.Any(e => e.Id == id);
         }
