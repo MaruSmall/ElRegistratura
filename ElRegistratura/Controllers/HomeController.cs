@@ -4,8 +4,10 @@ using ElRegistratura.Email;
 using ElRegistratura.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -125,38 +127,40 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var idTicket= db.Tickets.Include(s=>s.Schedule).Where(s=>s.Id == id).First();
             var idCabinet = db.Schedules.Include(s=>s.Cabinet).Where(s=>s.Id==idTicket.ScheduleId).FirstOrDefault();
             var viewModel = new ViewModelTicket();
             viewModel.Ticket = db.Tickets
-
+                
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor)
                 .ThenInclude(s => s.Clinic).ThenInclude(s => s.Street)
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor)
+              
                 .ThenInclude(s => s.Clinic).ThenInclude(s=>s.Cabinets.Where(s=>s.Id==idCabinet.CabinetId))
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor).ThenInclude(s => s.Speciality)
                 .Where(s => s.Id == id).AsNoTracking().ToList();
-
-            return View(viewModel);//отправлять талон на эл.почту
+            var user = db.Users.Where(s => s.Id == userId).AsNoTracking();
+            viewModel.Users = user;
+            return View(viewModel);
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+      
         public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,StatusId,UserId")] Ticket ticket)//84d9cf17-3224-40cc-9f1e-08da2e5d1d29
         {
             if (id != ticket.Id)
             {
                 return NotFound();
             }
-            //ticket.Number = ticket.Number;
+          
             if (ModelState.IsValid)
             {
                 try
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    // var sche= db.Schedules.Include(s => s.Tickets).Where(s => s.Tickets.Id==ticket.Id);
+                   
                     ticket.StatusId = 2;
                     var s = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
-                    //var t = db.Tickets.Include(s => s.Time).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
+                  
                     var t =
                             (from tic in db.Tickets
                              where tic.Id == id
@@ -169,10 +173,8 @@ namespace ElRegistratura.Controllers
                     db.Update(ticket);
                     await db.SaveChangesAsync();
 
-                    //_service.SendEmailCustom();
-
                     var message = new Message(new string[] { "marina_gritsanik@mail.ru" }, "Тестовое письмо ",
-                        "This is the content from our email. асинхроно");
+                        "This is the content from our email. асинхроно",null);
                     _emailSender.SendEmailAsync(message);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -189,6 +191,58 @@ namespace ElRegistratura.Controllers
                 return RedirectToAction("MessageTicketGood");
             }
            
+            return View("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,StatusId,UserId")] Ticket ticket, Schedule schedule)//84d9cf17-3224-40cc-9f1e-08da2e5d1d29
+        {
+            if (id != ticket.Id)
+            {
+                return NotFound();
+            }
+            //ticket.Number = ticket.Number;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                  
+                    ticket.StatusId = 2;
+                    var s = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
+                   
+                    var t =
+                            (from tic in db.Tickets
+                             where tic.Id == id
+                             select tic).AsNoTracking().FirstOrDefault();
+                    var n = db.Tickets.Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
+                    ticket.ScheduleId = s.ScheduleId;
+                    ticket.UserId = userId;
+                    ticket.Time = t.Time;
+                    ticket.Number = n.Number;
+                    db.Update(ticket);
+                    await db.SaveChangesAsync();
+
+                    var files = Request.Form.Files.Any() ? Request.Form.Files : new FormFileCollection();
+                    var message = new Message(new string[] { "marina_gritsanik@mail.ru" }, "Test mail with файлом", "This is the content from our mail with attachments.", files);
+                    await _emailSender.SendEmailAsync(message);
+                  
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TicketExists(ticket.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("MessageTicketGood");
+            }
+
             return View("Index");
         }
 

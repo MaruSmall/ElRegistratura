@@ -1,4 +1,5 @@
 ﻿@using ElRegistratura.Data
+@using System.Security.Claims
 @model ElRegistratura.Models.ViewModelTicket
 
 @{
@@ -6,8 +7,10 @@
 }
 
 <h2>Проверка данных</h2>
+<form method="post">
 
-@foreach (var item in Model.Ticket.Distinct())
+   
+    @foreach (var item in Model.Ticket.Distinct())
         {
 <table class="table">
     <thead>
@@ -59,10 +62,14 @@
                   <td>
                       @if(User.Identity.IsAuthenticated)
                     {
-                        @User.Identity.Name
+                            
+                         foreach (var u in Model.Users)
+                         {
+                              @Html.DisplayFor(modelItem => u.LastName)
+                              @Html.DisplayFor(modelItem => u.FirstName)
+                              @Html.DisplayFor(modelItem => u.Patronymic)
+                         }
                     }
-                   
-                   
                 </td>
                   <td>
                   @Html.DisplayFor(modelItem => item.Number)
@@ -75,6 +82,7 @@
 
 </table>
 <div>  <button type="submit" class="btn btn-primary "> <a class="btn-primary" 
-    asp-controller="Home" asp-action="EditTicket" asp-route-id="@item.Id">Записаться</a> </button> </div>  
+    asp-controller="Home" asp-action="EditTicket" asp-route-id="@item.Id" >Записаться</a> </button> </div>  
            
 }
+</form>
