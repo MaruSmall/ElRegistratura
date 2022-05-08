@@ -1,4 +1,5 @@
 using ElRegistratura.Data;
+using ElRegistratura.Email;
 using ElRegistratura.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -76,10 +77,14 @@ namespace ElRegistratura
                 options.SlidingExpiration = true;
             });
 
+            var emailConfig = Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddControllersWithViews();
-           
 
-
+            //services.AddTransient<Service>();
             //шифрование ид в строке запроса
             services.AddDataProtection();
         }

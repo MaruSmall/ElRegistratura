@@ -1,5 +1,6 @@
 ﻿using ElRegistratura.Data;
 using ElRegistratura.Data.Data;
+using ElRegistratura.Email;
 using ElRegistratura.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
@@ -21,11 +22,16 @@ namespace ElRegistratura.Controllers
         private readonly UserManager<User> _userManager;
         public Guid DItem;
         private ApplicationDbContext db;
-        public HomeController(ApplicationDbContext context, UserManager<User> userManager)
+        //private readonly Service _service;
+        private readonly IEmailSender _emailSender;
+       
+        public HomeController(ApplicationDbContext context, UserManager<User> userManager, IEmailSender emailSender)
         {
             db = context;
             _userManager = userManager;
-           
+           //this._service = service;
+          // _emailSender = emailSender;
+          _emailSender = emailSender;
         }
         [HttpGet]
         public IActionResult Index()
@@ -162,6 +168,12 @@ namespace ElRegistratura.Controllers
                     ticket.Number=n.Number;
                     db.Update(ticket);
                     await db.SaveChangesAsync();
+
+                    //_service.SendEmailCustom();
+
+                    var message = new Message(new string[] { "marina_gritsanik@mail.ru" }, "Тестовое письмо ",
+                        "This is the content from our email. асинхроно");
+                    _emailSender.SendEmailAsync(message);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -205,6 +217,7 @@ namespace ElRegistratura.Controllers
 
                     db.Update(ticket);
                     await db.SaveChangesAsync();
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -217,6 +230,7 @@ namespace ElRegistratura.Controllers
                         throw;
                     }
                 }
+               
                 return View("MessageTicketCancel");
             }
             
@@ -266,6 +280,7 @@ namespace ElRegistratura.Controllers
 
         public IActionResult MessageTicketGood()
         {
+           
             return View();
         }
         public IActionResult MessageTicketCancel()
