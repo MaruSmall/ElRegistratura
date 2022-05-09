@@ -15,9 +15,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Фамилия</th>
-            <th>Имя</th>
-            <th>Отчество</th>
+            <th>ФИО Врача</th>
              <th>Специальность</th>
              <th>Кабинет</th>
             <th>Название поликлиники</th>
@@ -27,62 +25,50 @@
             <th></th>
         </tr>
     </thead>
-
     <tbody>
-
             <tr >
-                <td>
-                    @Html.DisplayFor(modelItem => item.Schedule.Doctor.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Schedule.Doctor.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Schedule.Doctor.Patronymic)
+                <td >
+                  <label asp-for="FIODoctor">
+                      @Model.FIODoctor
+                  </label>
                 </td>
                   <td>
-                    @Html.DisplayFor(modelItem => item.Schedule.Doctor.Speciality.Name)
+                      <label asp-for="Spec">
+                        @Model.Spec
+                      </label>
                 </td>
                  <td>
-                     @foreach(var i in item.Schedule.Doctor.Clinic.Cabinets.Distinct())
-                    {
-                         @Html.DisplayFor(modelItem => i.Name)
-                         
-                    }
+                     <label asp-for="Cabinet">@Model.Cabinet</label>
                    
                 </td>
                 <td>
-                  @Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.Name)
+                    <label asp-for="OnClinic">
+                        @Model.OnClinic
+                    </label>
                 </td>
                  <td>
-                  @Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.Street.Name)
-                  д.@Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.HouseNumb), 
-                  кор.@Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.Housing)
+                     <label asp-for="Address">
+                        @Model.Address
+                    </label>
                 </td>
                   <td>
                       @if(User.Identity.IsAuthenticated)
                     {
-                            
-                         foreach (var u in Model.Users)
-                         {
-                              @Html.DisplayFor(modelItem => u.LastName)
-                              @Html.DisplayFor(modelItem => u.FirstName)
-                              @Html.DisplayFor(modelItem => u.Patronymic)
-                         }
+                        <label asp-for="FIOUser">
+                        @Model.FIOUser
+                    </label>
                     }
                 </td>
                   <td>
+
                   @Html.DisplayFor(modelItem => item.Number)
                 </td>
-             
-           
             </tr>
-             
     </tbody>
 
 </table>
 <div>  <button type="submit" class="btn btn-primary "> <a class="btn-primary" 
-    asp-controller="Home" asp-action="EditTicket" asp-route-id="@item.Id" >Записаться</a> </button> </div>  
+    asp-controller="Home" asp-action="EditTicketPost" asp-route-id="@item.Id" >Записаться</a> </button> </div>  
            
 }
 </form>

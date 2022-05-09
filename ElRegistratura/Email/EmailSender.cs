@@ -26,18 +26,17 @@ namespace ElRegistratura.Email
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
             var bodyBuilder = new BodyBuilder { HtmlBody = string.Format("<h2 style='color:red;'>{0}</h2>", message.Content) };
-            if (message.Attachments != null && message.Attachments.Any())
+            if (message.Attachments != null)
             {
-                byte[] fileBytes;
-                foreach (var attachment in message.Attachments)
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        attachment.CopyTo(ms);
-                        fileBytes = ms.ToArray();
-                    }
-                    bodyBuilder.Attachments.Add(attachment.FileName, fileBytes, ContentType.Parse(attachment.ContentType));
-                }
+                //    //byte[] fileBytes;
+
+                //    //    using (var ms = new MemoryStream())
+                //    //    {
+                //    //        //message.Attachments.CopyTo(ms);
+                //    //        fileBytes = ms.ToArray();
+                //    //    }
+                   // bodyBuilder.Attachments.Add(message.Attachments.FileName, fileBytes, ContentType.Parse(message.Attachments.ContentType));
+                bodyBuilder.Attachments.Add(message.Attachments.FileName);
             }
             emailMessage.Body = bodyBuilder.ToMessageBody();
             return emailMessage;

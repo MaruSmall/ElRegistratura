@@ -1,3 +1,4 @@
+
 using ElRegistratura.Data;
 using ElRegistratura.Email;
 using ElRegistratura.Models;
@@ -23,6 +24,7 @@ namespace ElRegistratura
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            AppContext.SetSwitch("Switch.System.Windows.Media.ShouldRenderEvenWhenNoDisplayDevicesAreAvailable", true);
         }
 
         public IConfiguration Configuration { get; }
@@ -92,6 +94,8 @@ namespace ElRegistratura
                 o.MemoryBufferThreshold = int.MaxValue;
             });
 
+
+            // services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //services.AddTransient<Service>();
             //шифрование ид в строке запроса
             services.AddDataProtection();

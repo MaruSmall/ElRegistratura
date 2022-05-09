@@ -18,8 +18,8 @@ namespace ElRegistratura.Email
         //    Content = content;
         //}
 
-        public IFormFileCollection Attachments { get; set; }
-        public Message(IEnumerable<string> to, string subject, string content, IFormFileCollection attachments)
+        public IFormFile Attachments { get; set; }
+        public Message(IEnumerable<string> to, string subject, string content, IFormFile attachments)
         {
             To = new List<MailboxAddress>();
             To.AddRange(to.Select(x => new MailboxAddress(x)));
