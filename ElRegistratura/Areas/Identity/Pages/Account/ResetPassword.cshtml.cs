@@ -45,7 +45,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
             public string Code { get; set; }
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string code)
         {
             if (code == null)
             {
@@ -56,6 +56,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
                 Input = new InputModel
                 {
                     Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                   
                 };
                 return Page();
             }
@@ -63,6 +64,24 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
+
+            //if (!ModelState.IsValid)
+            //    return View(resetPasswordModel);
+            //var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
+            //if (user == null)
+            //    RedirectToAction(nameof(ResetPasswordConfirmation));
+           // var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+            //if (!resetPassResult.Succeeded)
+            //{
+            //    foreach (var error in resetPassResult.Errors)
+            //    {
+            //        ModelState.TryAddModelError(error.Code, error.Description);
+            //    }
+            //    return View();
+            //}
+            //return RedirectToAction(nameof(ResetPasswordConfirmation));
+
+
             if (!ModelState.IsValid)
             {
                 return Page();

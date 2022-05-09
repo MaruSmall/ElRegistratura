@@ -45,6 +45,7 @@ namespace ElRegistratura
                 opt.SignIn.RequireConfirmedEmail = false;
             }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultUI()
            .AddDefaultTokenProviders();
+            
 
             services.AddControllersWithViews();
 
@@ -85,6 +86,7 @@ namespace ElRegistratura
         .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
+
             services.AddControllersWithViews();
 
 
@@ -94,7 +96,8 @@ namespace ElRegistratura
                 o.MemoryBufferThreshold = int.MaxValue;
             });
 
-
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+   opt.TokenLifespan = TimeSpan.FromHours(2));
             // services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //services.AddTransient<Service>();
             //шифрование ид в строке запроса

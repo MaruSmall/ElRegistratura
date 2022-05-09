@@ -270,15 +270,18 @@ namespace ElRegistratura.Controllers
                     string pathDoc = Path.Combine(this.environment.ContentRootPath, "Талон"+" "+ viewModel.FIOUser + ".pdf");
                     using (var stream = System.IO.File.OpenRead(pathDoc))
                     {
-                       // var files = new FormFileCollection();
-                        
                         var files = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
                         //var files = Request.Form.Files.Any() ? Request.Form.Files : new FormFileCollection();
-                        var message = new Message(new string[] { "marina_gritsanik@mail.ru" }, "Test mail with файлом",
-                        "This is the content from our mail with attachments.", files);
+                        var message = new Message(new string[] { user.Email }, "Талон на прием",
+                        "Талон на прием в прикрипленом файле", files);
                         await _emailSender.SendEmailAsync(message);
                     }
 
+                    FileInfo fileInf = new FileInfo(pathDoc);
+                    if (fileInf.Exists)
+                    {
+                        fileInf.Delete();
+                    }
                     return RedirectToAction("MessageTicketGood");
 
                 }
