@@ -100,6 +100,7 @@ namespace ElRegistratura
    opt.TokenLifespan = TimeSpan.FromHours(2));
             // services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //services.AddTransient<Service>();
+            
             //шифрование ид в строке запроса
             services.AddDataProtection();
         }

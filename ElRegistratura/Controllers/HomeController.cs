@@ -30,6 +30,8 @@ namespace ElRegistratura.Controllers
         private ApplicationDbContext db;
         private readonly IWebHostEnvironment environment;
         private readonly IEmailSender _emailSender;
+        
+        public static ViewModelTicket viewModel= new ViewModelTicket(); 
         public HomeController(ApplicationDbContext context, UserManager<User> userManager, IEmailSender emailSender,
             IWebHostEnvironment environment)
         {
@@ -38,8 +40,11 @@ namespace ElRegistratura.Controllers
             this.environment = environment;
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
             _emailSender = emailSender;
-            
         }
+
+        [Route("")]
+        [Route("Home")]
+        [Route("Home/Index")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -77,10 +82,7 @@ namespace ElRegistratura.Controllers
         public IActionResult DoctorsView(int id)//врачи определенной специальности в определенной поликлиники
         {
            var doctors=db.Doctors.Include(s=>s.Speciality).Where(s=>s.Speciality.Id==id).ToList().Distinct();
-            //var doctors = (from doc in db.Doctors.Include(s => s.Speciality)
-            //               .Include(s=>s.Schedules)
-            //               where doc.SpecialityId == id
-            //               select doc).ToList().Distinct();
+            
             if (doctors == null)
             {
                 return NotFound();
@@ -135,104 +137,50 @@ namespace ElRegistratura.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var idTicket= db.Tickets.Include(s=>s.Schedule).Where(s=>s.Id == id).First();
             var idCabinet = db.Schedules.Include(s=>s.Cabinet).Where(s=>s.Id==idTicket.ScheduleId).FirstOrDefault();
-            var viewModel = new ViewModelTicket();
-            viewModel.Ticket = db.Tickets
-                
+            ViewModelTicket.Ticket = db.Tickets
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor)
                 .ThenInclude(s => s.Clinic).ThenInclude(s => s.Street)
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor)
-              
                 .ThenInclude(s => s.Clinic).ThenInclude(s=>s.Cabinets.Where(s=>s.Id==idCabinet.CabinetId))
                 .Include(s => s.Schedule).ThenInclude(s => s.Doctor).ThenInclude(s => s.Speciality)
                 .Where(s => s.Id == id).AsNoTracking().ToList();
-            var user = db.Users.Where(s => s.Id == userId).AsNoTracking().FirstOrDefault();
-            //viewModel.Users = user;
-
-           // var idTicket = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).First();
-            var sche = db.Schedules.Include(s => s.Cabinet).Where(s => s.Id == idTicket.ScheduleId).AsNoTracking().First();
-            var doc = db.Doctors.Include(s => s.Speciality).Include(s => s.Clinic).ThenInclude(s=>s.Street).Where(s => s.Id == sche.DoctorId).AsNoTracking().First();
-            viewModel.FIODoctor = doc.FIO;
-            //var user = db.Users.Where(s => s.Id == userId).AsNoTracking().FirstOrDefault();
-            viewModel.FIOUser = userId;
-            viewModel.FIOUser = user.LastName + " " + user.FirstName + " " + user.Patronymic;
-            viewModel.Spec = doc.Speciality.Name;
-            viewModel.Address = doc.Clinic.Street.Name + " " + doc.Clinic.HouseNumb + " " + doc.Clinic.Housing;
-            viewModel.OnClinic = doc.Clinic.Name;
-            viewModel.Cabinet = sche.Cabinet.Name;
-
-
+            var user = db.Users.Where(s => s.Id == userId).FirstOrDefault();
+            var sche = db.Schedules.Include(s => s.Cabinet).Where(s => s.Id == idTicket.ScheduleId).First();
+            var doc = db.Doctors.Include(s => s.Speciality).Include(s => s.Clinic).ThenInclude(s=>s.Street)
+                .Where(s => s.Id == sche.DoctorId).First();
+            ViewModelTicket.fioDoctor = doc.FIO;
+            ViewModelTicket.fioUser = userId;
+            ViewModelTicket.fioUser = user.LastName + " " + user.FirstName + " " + user.Patronymic;
+            ViewModelTicket.spec = doc.Speciality.Name;
+            ViewModelTicket.address = doc.Clinic.Street.Name + " д." + doc.Clinic.HouseNumb + " к." + doc.Clinic.Housing;
+            ViewModelTicket.onClinic = doc.Clinic.Name;
+            ViewModelTicket.cabinet = sche.Cabinet.Name;
+            ViewModelTicket.date = sche.Data.ToShortDateString();
+            ViewModelTicket.time = Convert.ToString(idTicket.Time);
+            ViewModelTicket.time = ViewModelTicket.time.Remove(ViewModelTicket.time.Length - 3);
+            ViewModelTicket.number = idTicket.Number;
             return View(viewModel);
-        }
-      
-        public async Task<IActionResult> EditTicket(Guid id, [Bind("Id,StatusId,UserId")] Ticket ticket)//84d9cf17-3224-40cc-9f1e-08da2e5d1d29
-        {
-            if (id != ticket.Id)
-            {
-                return NotFound();
-            }
-          
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    ticket.StatusId = 2;
-                    var s = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
-                  
-                    var t =
-                            (from tic in db.Tickets
-                             where tic.Id == id
-                             select tic).AsNoTracking().FirstOrDefault();
-                    var n=db.Tickets.Where(s=>s.Id == id).AsNoTracking().FirstOrDefault();
-                    ticket.ScheduleId = s.ScheduleId;
-                    ticket.UserId = userId;
-                    ticket.Time = t.Time;
-                    ticket.Number=n.Number;
-                    db.Update(ticket);
-                    await db.SaveChangesAsync();
-
-
-
-
-                    var message = new Message(new string[] { "marina_gritsanik@mail.ru" }, "Тестовое письмо ",
-                        "This is the content from our email. асинхроно",null);
-                    _emailSender.SendEmailAsync(message);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TicketExists(ticket.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("MessageTicketGood");
-            }
            
-            return View("Index");
         }
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTicketPost(Guid id, [Bind("Id,StatusId,UserId")] Ticket ticket, ViewModelTicket viewModel, IFormFile file)//84d9cf17-3224-40cc-9f1e-08da2e5d1d29
+        public async Task<IActionResult> EditTicketPost(Guid id, [Bind("Id,StatusId,UserId")] Ticket ticket, IFormFile file)//84d9cf17-3224-40cc-9f1e-08da2e5d1d29
         {
             if (id != ticket.Id)
             {
                 return NotFound();
             }
-            //ticket.Number = ticket.Number;
+           
             if (ModelState.IsValid)
             {
                 try
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                  
+
                     ticket.StatusId = 2;
                     var s = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).AsNoTracking().FirstOrDefault();
-                   
+
                     var t =
                             (from tic in db.Tickets
                              where tic.Id == id
@@ -244,20 +192,7 @@ namespace ElRegistratura.Controllers
                     ticket.Number = n.Number;
                     db.Update(ticket);
                     await db.SaveChangesAsync();
-
-                    var idTicket = db.Tickets.Include(s => s.Schedule).Where(s => s.Id == id).First();
-                    var sche = db.Schedules.Include(s=>s.Cabinet).Where(s => s.Id == idTicket.ScheduleId).AsNoTracking().First();
-                    var doc = db.Doctors.Include(s=>s.Speciality).Include(s=>s.Clinic).ThenInclude(s=>s.Street).Where(s => s.Id == sche.DoctorId).AsNoTracking().First();
-                    viewModel.FIODoctor = doc.FIO;
-                    var user=db.Users.Include(s=>s.Street).Where(s=>s.Id==userId).AsNoTracking().FirstOrDefault();
-                    viewModel.FIOUser = userId;
-                    //viewModel.FIOUser=user.LastName+" "+user.FirstName+" "+user.Patronymic+" "+user.Street.Name
-                    //    +" "+user.HouseNumber+" "+user.Housing+" "+user.PhoneNumber+" "+user.PolisNumber;
-                    viewModel.FIOUser = user.LastName + " " + user.FirstName + " " + user.Patronymic;
-                    viewModel.Spec = doc.Speciality.Name;
-                    viewModel.Address = doc.Clinic.Street.Name+" "+doc.Clinic.HouseNumb+" "+doc.Clinic.Housing;
-                    viewModel.OnClinic = doc.Clinic.Name;
-                    viewModel.Cabinet = sche.Cabinet.Name;
+                    var user = db.Users.Include(s => s.Street).Where(s => s.Id == userId).AsNoTracking().FirstOrDefault();
 
                     var path = Path.Combine(this.environment.ContentRootPath, "InvoiceWithFields.docx");
                     var document = DocumentModel.Load(path);
@@ -265,13 +200,13 @@ namespace ElRegistratura.Controllers
                     // Execute mail merge process.
                     document.MailMerge.Execute(viewModel);
 
-                    document.Save("Талон"+" "+viewModel.FIOUser+".pdf");
+                    document.Save("Талон" + " " + ViewModelTicket.fioUser + ".pdf");
 
-                    string pathDoc = Path.Combine(this.environment.ContentRootPath, "Талон"+" "+ viewModel.FIOUser + ".pdf");
+                    string pathDoc = Path.Combine(this.environment.ContentRootPath, "Талон" + " " + ViewModelTicket.fioUser + ".pdf");
                     using (var stream = System.IO.File.OpenRead(pathDoc))
                     {
                         var files = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
-                        //var files = Request.Form.Files.Any() ? Request.Form.Files : new FormFileCollection();
+                        
                         var message = new Message(new string[] { user.Email }, "Талон на прием",
                         "Талон на прием в прикрипленом файле", files);
                         await _emailSender.SendEmailAsync(message);
@@ -296,7 +231,7 @@ namespace ElRegistratura.Controllers
                         throw;
                     }
                 }
-                
+
             }
 
             return View("Index");

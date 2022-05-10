@@ -8,15 +8,15 @@
 
 <h2>Проверка данных</h2>
 <form method="post">
-
-   
-    @foreach (var item in Model.Ticket.Distinct())
+    @foreach (var item in ViewModelTicket.Ticket)
         {
 <table class="table">
     <thead>
         <tr>
             <th>ФИО Врача</th>
              <th>Специальность</th>
+             <th>Дата</th>
+             <th>Время</th>
              <th>Кабинет</th>
             <th>Название поликлиники</th>
             <th>Адрес поликлиники</th>
@@ -29,39 +29,52 @@
             <tr >
                 <td >
                   <label asp-for="FIODoctor">
-                      @Model.FIODoctor
+                      @ViewModelTicket.fioDoctor
+                     
                   </label>
                 </td>
                   <td>
                       <label asp-for="Spec">
-                        @Model.Spec
+                        @ViewModelTicket.spec
                       </label>
                 </td>
                  <td>
-                     <label asp-for="Cabinet">@Model.Cabinet</label>
+                      <label asp-for="Date">
+                         @ViewModelTicket.date
+                      </label>
+                </td>
+                 <td>
+                      <label asp-for="Time">
+                        @ViewModelTicket.time
+                      </label>
+                </td>
+                 <td>
+                     <label asp-for="Cabinet"> @ViewModelTicket.cabinet</label>
                    
                 </td>
                 <td>
                     <label asp-for="OnClinic">
-                        @Model.OnClinic
+                         @ViewModelTicket.onClinic
                     </label>
                 </td>
                  <td>
                      <label asp-for="Address">
-                        @Model.Address
+                        @ViewModelTicket.address
                     </label>
                 </td>
                   <td>
                       @if(User.Identity.IsAuthenticated)
                     {
                         <label asp-for="FIOUser">
-                        @Model.FIOUser
+                        @ViewModelTicket.fioUser
                     </label>
                     }
                 </td>
                   <td>
 
-                  @Html.DisplayFor(modelItem => item.Number)
+                  <label asp-for="Number">
+                      @ViewModelTicket.number
+                  </label>
                 </td>
             </tr>
     </tbody>

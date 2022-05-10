@@ -17,7 +17,7 @@ namespace ElRegistratura.Models
         public string? UserId { get; set; }
         [Display(Name = "Пользователь")]
         public User User { get; set; }
-        [Display(Name = "Время")]
+        [Display(Name = "Время"), DataType(DataType.Time)]
         public TimeSpan Time { get; set; }
         [Display(Name = "Статус")]
         public int? StatusId { get; set; }

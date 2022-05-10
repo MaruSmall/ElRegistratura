@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,6 +7,7 @@ namespace ElRegistratura.Models
 {
     public class Doctor
     {
+       // [TempData]
         public int Id { get; set; }
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }
