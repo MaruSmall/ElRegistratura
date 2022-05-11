@@ -25,9 +25,10 @@ namespace ElRegistratura.Models
         [Display(Name = "Номер полиса"), DataType(DataType.Text), StringLength(16, MinimumLength = 16)]
         public string PolisNumber { get; set; }
 
+
+
+
         [Display(Name = "Серия"), DataType(DataType.Text)]
-
-
         public string Series { get; set; }
         [Display(Name = "Номер"), DataType(DataType.Text)]
         public string Number { get; set; }

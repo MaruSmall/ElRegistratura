@@ -102,19 +102,6 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             var polisNumber = user.PolisNumber;
 
             var seria = user.Series;
-            //CriptoAes cripto= new CriptoAes();
-            //try
-            //{
-            //    byte[] croptoSeria = System.Text.Encoding.UTF8.GetBytes(seria);
-            //    // string roundtrip = cripto.DecryptStringFromBytes_Aes(croptoSeria, myAes.Key, myAes.IV);
-            //    seria = cripto.DecryptStringFromBytes_Aes(croptoSeria, myAes.Key, myAes.IV);
-            //}
-            //catch(Exception ex)
-            //{
-                
-            //}
-            
-
             var number = user.Number;
             var issue = user.IssuedBy;
 
