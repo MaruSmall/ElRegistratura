@@ -1,10 +1,12 @@
-﻿@model IEnumerable<ElRegistratura.Models.Speciality>
+﻿@using ElRegistratura.Data
+@model IEnumerable<ElRegistratura.Models.Speciality>
 
-<h1>Поликлиники</h1>
-<div>
-    <a class="navbar-brand" asp-controller="Home" asp-action="ClinicsView" >Назад</a>
-</div>
-<table class="table">
+
+<h1>Специальности </h1>
+<a class="navbar-brand" href='javascript:history.go(-1)'>Назад</a>
+
+<form method="get">
+    <table class="table">
     <thead>
         <tr>
             <th>
@@ -23,11 +25,17 @@
             </td>
             
             <td>
-                <a asp-controller="Home" asp-action="DoctorsView" asp-route-id="@item.Id">Просмотреть докторов</a> 
-               @* <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>*@
+                 @*<a asp-controller="Home" asp-action="SpecialityDoctorsView" asp-route-id="@Url.RouteUrl(new
+{ controller = "Home", action = "SpecialityDoctorsView",id = @item.Id })">Просмотреть специалистов</a>    *@  
+     
+             <a asp-controller="Home" asp-action="DoctorsView" asp-route-id="@item.Id">Просмотреть докторов</a> 
+                  
+                  
+              
             </td>
         </tr>
 }
     </tbody>
 </table>
+</form>
+

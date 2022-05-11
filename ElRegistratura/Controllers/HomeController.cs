@@ -19,27 +19,33 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ElRegistratura.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        public Guid DItem;
         private ApplicationDbContext db;
         private readonly IWebHostEnvironment environment;
         private readonly IEmailSender _emailSender;
-        
-        public static ViewModelTicket viewModel= new ViewModelTicket(); 
-        public HomeController(ApplicationDbContext context, UserManager<User> userManager, IEmailSender emailSender,
-            IWebHostEnvironment environment)
+        public static ViewModelTicket viewModel = new ViewModelTicket();
+
+        readonly IDataProtector _protector;
+
+
+        public HomeController(ApplicationDbContext context, IEmailSender emailSender,
+            IWebHostEnvironment environment, IDataProtectionProvider provider)
         {
             db = context;
-            _userManager = userManager;
+
             this.environment = environment;
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
             _emailSender = emailSender;
+
+            _protector = provider.CreateProtector("DataProtectionDemo.Controllers.HomeController");
+
         }
 
         [Route("")]
@@ -55,7 +61,7 @@ namespace ElRegistratura.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         [Authorize(Roles = "SuperAdmin")]
         public IActionResult AdminView()
         {
@@ -66,10 +72,22 @@ namespace ElRegistratura.Controllers
         {
             return View(db.Clinics.Include(s => s.Street).ToList());
         }
+
         [HttpGet]
-        public IActionResult SpecialityDoctorsView(int? id)//специальность определенной поликлиники
+        public IActionResult SpecialityDoctorsView(int id)//специальность определенной поликлиники
         {
-            DoctorItem.IdSpec = id;
+
+            //var url1 = HttpUtility.UrlDecode(id);
+            //url1 = url1.Remove(0, url1.Length - 2);
+            //url1 = url1.Trim(new char[] { '/' });
+         
+            if (id==null)
+            {
+                return NotFound();
+            }
+          //  int idint = Convert.ToInt32(url1);
+            
+
             var s = (from spec in db.Specialities
                      from doc in db.Doctors
                      where spec.Id == doc.SpecialityId && doc.ClinicId == id
@@ -81,13 +99,30 @@ namespace ElRegistratura.Controllers
         [HttpGet]
         public IActionResult DoctorsView(int id)//врачи определенной специальности в определенной поликлиники
         {
-           var doctors=db.Doctors.Include(s=>s.Speciality).Where(s=>s.Speciality.Id==id).ToList().Distinct();
+
+            // var url = HttpUtility.UrlDecode(path);
+            //// url = url.Remove(0, url.Length - 2);
+            // url = url.Trim(new char[] { '/', 'D','o','c','t','r','s','V','e','w','H','m' });
+            // int id = Convert.ToInt32(url);
+
+            //var user = await _userRepository.GetUserDetail(id);
+
+            //user.Id = _protector.Protect(user.Id);
+
+            //return View(user);
+
+
+            var doctors=db.Doctors.Include(s=>s.Speciality).Where(s=>s.Speciality.Id==id).ToList().Distinct();
             
             if (doctors == null)
             {
                 return NotFound();
             }
-
+            //foreach(var doctor in doctors)
+            //{
+            //    var stringId = doctor.Speciality.EncryptedId.ToString();
+            //    doctor.Speciality.EncryptedId=_protector.Protect(stringId);
+            //}
             return View(doctors);
         }
         [HttpGet]
@@ -104,7 +139,7 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-            DoctorItem.IdDoctorItem = id;
+            //DoctorItem.IdDoctorItem = id;
             return View(schedules);
         }
 

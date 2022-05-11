@@ -38,9 +38,7 @@ namespace ElRegistratura.Models
         public  SaveOptions Options => this.FormatMappingDictionary[this.Format];
         public  IDictionary<string, SaveOptions> FormatMappingDictionary => new Dictionary<string, SaveOptions>()
         {
-
             ["PDF"] = new PdfSaveOptions(),
-
         };
     }
 }

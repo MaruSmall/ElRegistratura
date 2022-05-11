@@ -1,38 +1,36 @@
 ﻿@model IEnumerable<ElRegistratura.Models.Doctor>
 
 <h1>Врачи</h1>
-@foreach (var item in Model)
-{
-    <div>
-    <a class="navbar-brand" asp-controller="Home" asp-action="SpecialityDoctorsView" asp-route-id=@item.SpecialityId >Назад</a>
-</div>
-}
 
+
+<a class="navbar-brand" href='javascript:history.go(-1)'>Назад</a>
+    
 <table class="table">
     <thead>
         <tr>
              <th>
-                @Html.DisplayNameFor(model => model.DoctorPicture)
+               Фотография
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+               Фамилия
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+               Имя
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Patronymic)
+               Отчество
             </th>
               
               <th>
-                @Html.DisplayNameFor(model => model.Speciality.Name)
+                Специальность
             </th>
             
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model) 
+{
         <tr>
             <td>
               <img src="@Url.Content(item.DoctorPicture)"/>

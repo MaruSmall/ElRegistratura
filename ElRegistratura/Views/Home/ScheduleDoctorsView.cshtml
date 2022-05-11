@@ -3,20 +3,12 @@
 @{
     ViewData["Title"] = "Расписание";
 }
-@if (true)
-{
-    int docId = 0;
-    @foreach (var item in Model)
-    {
-        docId = item.Doctor.SpecialityId;
-    }
-    <div>
-        <a class="navbar-brand" asp-controller="Home" asp-action="DoctorsView" asp-route-id=@docId >Назад</a>
-    </div>
-}
 
 
 <h1>Расписание</h1>
+
+<a class="navbar-brand" href='javascript:history.go(-1)'>Назад</a>
+
 <div>
     @if(Model.ToList()==null)
     {

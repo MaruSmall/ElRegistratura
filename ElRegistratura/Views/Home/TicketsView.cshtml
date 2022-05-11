@@ -6,9 +6,7 @@
 
 <h1>Расписание</h1>
 <h3>Время</h3>
-<div>
-    <a class="navbar-brand" asp-controller="Home" asp-action="ScheduleDoctorsView" >Назад</a>
-</div>
+<a class="navbar-brand" href='javascript:history.go(-1)'>Назад</a>
 
 <form>
     @foreach(var item in Model.OrderBy(t=>t.Time))

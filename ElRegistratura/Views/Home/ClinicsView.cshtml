@@ -9,9 +9,7 @@
 <div style="background-color: white">
     <h1>Поликлиники</h1>
 
-<div>
-    <a class="navbar-brand" asp-controller="Home" asp-action="Index">Назад</a>
-</div>
+<a class="navbar-brand" href='javascript:history.go(-1)'>Назад</a>
 <table class="table">
     <thead>
         <tr>
@@ -52,7 +50,13 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
+                
+                    @* <a asp-controller="Home" asp-action="SpecialityDoctorsView" asp-route-id="@Url.RouteUrl(new
+{ controller = "Home", action = "SpecialityDoctorsView",id = @item.Id })">Просмотреть специалистов</a>    *@ 
+                            
                 <a asp-controller="Home" asp-action="SpecialityDoctorsView" asp-route-id="@item.Id">Просмотреть специалистов</a> 
+                
+          @* @Url.RouteUrl(ViewContext.RouteData.Values)*@
             </td>
         </tr>
 }

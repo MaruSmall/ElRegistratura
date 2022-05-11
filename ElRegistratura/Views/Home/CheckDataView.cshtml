@@ -1,12 +1,13 @@
-﻿@using ElRegistratura.Data
-@using System.Security.Claims
-@model ElRegistratura.Models.ViewModelTicket
+﻿@model ElRegistratura.Models.ViewModelTicket
 
 @{
     ViewData["Title"] = "Проверка данных";
 }
 
 <h2>Проверка данных</h2>
+
+<a class="navbar-brand" href='javascript:history.go(-1)'>Назад</a>
+
 <form method="post">
     @foreach (var item in ViewModelTicket.Ticket)
         {

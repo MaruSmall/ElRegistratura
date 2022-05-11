@@ -7,7 +7,9 @@ namespace ElRegistratura.Models
 {
     public class Doctor
     {
-       // [TempData]
+        // [TempData]
+        [NotMapped]
+        public string EncryptedId { get; set; }
         public int Id { get; set; }
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }

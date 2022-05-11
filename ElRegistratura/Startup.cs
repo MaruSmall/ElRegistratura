@@ -43,7 +43,8 @@ namespace ElRegistratura
                 // opt.Lockout.MaxFailedAccessAttempts = 5;
                 opt.User.RequireUniqueEmail = true;
                 opt.SignIn.RequireConfirmedEmail = false;
-            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultUI()
+            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI()
            .AddDefaultTokenProviders();
             
 
