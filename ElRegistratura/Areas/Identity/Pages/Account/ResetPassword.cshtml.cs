@@ -28,18 +28,18 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required, Display(Name ="Электронная почта")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required, Display(Name ="Пароль")]
+            [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Повторите пароль")]
+            [Compare("Password", ErrorMessage = "Пароль и пароль подтверждения не совпадают.")]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }
@@ -49,7 +49,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
         {
             if (code == null)
             {
-                return BadRequest("A code must be supplied for password reset.");
+                return BadRequest("Код должен быть предоставлен для сброса пароля.");
             }
             else
             {
@@ -103,8 +103,10 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
+                return Page();
             }
-            return Page();
+
+            return RedirectToPage("./ResetPasswordConfirmation");
         }
     }
 }

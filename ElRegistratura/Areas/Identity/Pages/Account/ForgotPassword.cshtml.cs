@@ -58,8 +58,8 @@ namespace ElRegistratura.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                var message = new Message(new string[] { user.Email }, "Reset password token", 
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.", null);
+                var message = new Message(new string[] { user.Email }, "Сброс пароля", 
+                    $"Пожалуйста, сбросьте пароль, <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>нажмите здесь</a>.", null);
                 await _emailSender.SendEmailAsync(message);
 
 

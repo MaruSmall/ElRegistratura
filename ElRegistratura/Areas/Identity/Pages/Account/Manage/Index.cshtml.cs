@@ -20,7 +20,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _context;
-        //Aes myAes = Aes.Create();
+        public Transposition tr;
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager, ApplicationDbContext context)
@@ -28,6 +28,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            tr= new Transposition();
         }
         [Display(Name = "Имя пользователя")]
         public string Username { get; set; }
@@ -59,11 +60,12 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Номер полиса"), DataType(DataType.Text), StringLength(16, MinimumLength = 16)]
             public string PolisNumber { get; set; }
-
+            [Display(Name = "Место работы"), DataType(DataType.Text)]
+            public string PlaceOfWork { get; set; }
 
             [Display(Name = "Серия"), DataType(DataType.Text)]
             public string Series { get; set; }
-            [Display(Name = "Номер"), DataType(DataType.Text)]
+            [Display(Name = "Номер")]
             public string Number { get; set; }
             [Display(Name = "Кем выдан"), DataType(DataType.Text)]
             public string IssuedBy { get; set; }
@@ -107,7 +109,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
             var sex = user.SexId;
             var street = user.StreetId;
-
+            var place = user.PlaceOfWork;
             var houseNumber = user.HouseNumber;
             var housing = user.Housing;
             var apartament = user.Apartment;
@@ -127,6 +129,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                 Number = number,
                 IssuedBy = issue,
 
+                PlaceOfWork = place,
                 SexId = sex,
                 StreetId = street,
                 HouseNumber = houseNumber,
@@ -173,7 +176,7 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 
             var sex = user.SexId;
             var street = user.StreetId;
-
+            var place = user.PlaceOfWork;
             var houseNumber = user.HouseNumber;
             var housing = user.Housing;
             var apartament = user.Apartment;
@@ -207,15 +210,12 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             if (Input.Series != seria)
             {
                 user.Series = Input.Series;
-                //CriptoAes cripto = new CriptoAes();
-                //cripto.EncryptStringToBytes_Aes(seria, myAes.Key, myAes.IV);
-
                 await _userManager.UpdateAsync(user);
             }
 
             if (Input.Number != number)
             {
-                user.Series = Input.Series;
+                user.Number = Input.Number;
                 await _userManager.UpdateAsync(user);
             }
 
@@ -243,6 +243,11 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
             if (Input.HouseNumber != houseNumber)
             {
                 user.HouseNumber = Input.HouseNumber;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.PlaceOfWork != place)
+            {
+                user.PlaceOfWork = Input.PlaceOfWork;
                 await _userManager.UpdateAsync(user);
             }
             if (Input.Housing != housing)

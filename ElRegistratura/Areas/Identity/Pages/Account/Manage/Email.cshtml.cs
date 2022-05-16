@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using ElRegistratura.Email;
 
 namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
 {
@@ -18,12 +19,12 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly Email.IEmailSender _emailSender;
 
         public EmailModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IEmailSender emailSender)
+             Email.IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -100,10 +101,13 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                     pageHandler: null,
                     values: new { userId, email = Input.NewEmail, code },
                     protocol: Request.Scheme);
-                await _emailSender.SendEmailAsync(
-                    Input.NewEmail,
-                    "Confirm your email",
-                    $"Пожалуйста, подтвердите свой аккаунт через <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>нажмите здесь</a>.");
+                var message = new Message(new string[] { user.Email }, "Подтвердите ваш адрес электронной почты",
+                  $"Пожалуйста, подтвердите свой аккаунт через <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>нажмите здесь</a>.", null);
+                await _emailSender.SendEmailAsync(message);
+                //await _emailSender.SendEmailAsync(
+                //    Input.NewEmail,
+                //    "Confirm your email",
+                //    $"Пожалуйста, подтвердите свой аккаунт через <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>нажмите здесь</a>.");
 
                 StatusMessage = "Ссылка для подтверждения изменения электронной почты отправлена. Пожалуйста, проверьте свою электронную почту.";
                 return RedirectToPage();
@@ -136,10 +140,13 @@ namespace ElRegistratura.Areas.Identity.Pages.Account.Manage
                 pageHandler: null,
                 values: new { area = "Identity", userId, code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Confirm your email",
-                $"Пожалуйста, подтвердите свой аккаунт через <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>нажмите здесь</a>.");
+            var message = new Message(new string[] { user.Email }, "Confirm your email",
+                   $"Пожалуйста, подтвердите свой аккаунт через <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.", null);
+            await _emailSender.SendEmailAsync(message);
+            //await _emailSender.SendEmailAsync(
+            //    email,
+            //    "Confirm your email",
+            //    $"Пожалуйста, подтвердите свой аккаунт через <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>нажмите здесь</a>.");
 
             StatusMessage = "Письмо с подтверждением отправлено. Пожалуйста, проверьте свою электронную почту.";
             return RedirectToPage();

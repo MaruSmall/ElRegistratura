@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿
+@using Microsoft.AspNetCore.Identity
+
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
@@ -18,7 +20,7 @@
      }
     else
     {
-             <li class="nav-item">
+     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
     </li>
     <li class="nav-item">
@@ -26,6 +28,10 @@
             <button  type="submit" class="nav-link btn btn-link text-dark">Выход</button>
         </form>
     </li>
+            
+       
+       
+            
         }
        
 }

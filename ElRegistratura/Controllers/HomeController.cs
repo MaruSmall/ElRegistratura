@@ -87,7 +87,7 @@ namespace ElRegistratura.Controllers
             }
           //  int idint = Convert.ToInt32(url1);
             
-
+            DoctorItem.IdDoctorItem = id;
             var s = (from spec in db.Specialities
                      from doc in db.Doctors
                      where spec.Id == doc.SpecialityId && doc.ClinicId == id
@@ -112,18 +112,24 @@ namespace ElRegistratura.Controllers
             //return View(user);
 
 
-            var doctors=db.Doctors.Include(s=>s.Speciality).Where(s=>s.Speciality.Id==id).ToList().Distinct();
+            var s = (from spec in db.Specialities
+                     from doc in db.Doctors
+                     from clinic in db.Clinics
+                     where spec.Id == doc.SpecialityId && doc.SpecialityId==id &&doc.ClinicId==DoctorItem.IdDoctorItem
+                     select doc).ToList().Distinct();
+
+            //var doctors=db.Doctors.Include(s=>s.Speciality).Where(s=>s.Speciality.Id==id).ToList().Distinct();
             
-            if (doctors == null)
-            {
-                return NotFound();
-            }
+            //if (doctors == null)
+            //{
+            //    return NotFound();
+            //}
             //foreach(var doctor in doctors)
             //{
             //    var stringId = doctor.Speciality.EncryptedId.ToString();
             //    doctor.Speciality.EncryptedId=_protector.Protect(stringId);
             //}
-            return View(doctors);
+            return View(s);
         }
         [HttpGet]
         public IActionResult ScheduleDoctorsView(int id)

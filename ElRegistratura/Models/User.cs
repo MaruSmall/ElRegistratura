@@ -25,7 +25,8 @@ namespace ElRegistratura.Models
         [Display(Name = "Номер полиса"), DataType(DataType.Text), StringLength(16, MinimumLength = 16)]
         public string PolisNumber { get; set; }
 
-
+        [Display(Name = "Место работы"), DataType(DataType.Text)]
+        public string PlaceOfWork { get; set; }
 
 
         [Display(Name = "Серия"), DataType(DataType.Text)]
