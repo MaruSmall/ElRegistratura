@@ -112,24 +112,37 @@ namespace ElRegistratura.Controllers
             //return View(user);
 
 
-            var s = (from spec in db.Specialities
-                     from doc in db.Doctors
-                     from clinic in db.Clinics
-                     where spec.Id == doc.SpecialityId && doc.SpecialityId==id &&doc.ClinicId==DoctorItem.IdDoctorItem
-                     select doc).ToList().Distinct();
+            //var sd = (from spec in db.Specialities
+            //          from doc in db.Doctors
+            //          from clinic in db.Clinics
+            //          where spec.Id == doc.SpecialityId && doc.SpecialityId == id && doc.ClinicId == DoctorItem.IdDoctorItem
+            //          select doc).ToList().Distinct();
 
-            //var doctors=db.Doctors.Include(s=>s.Speciality).Where(s=>s.Speciality.Id==id).ToList().Distinct();
-            
+
+            //var spec = (from d in db.Doctors
+            //            join c in db.Clinics on d.ClinicId equals c.Id
+            //            join s in db.Specialities on d.SpecialityId equals s.Id
+            //            where d.ClinicId == DoctorItem.IdDoctorItem
+            //            select new
+            //            {
+            //                doctor = d.FIO,
+            //                sp = d.Speciality.Name
+            //                // other assignments
+            //            }).ToList().Distinct();
+
             //if (doctors == null)
             //{
             //    return NotFound();
             //}
-            //foreach(var doctor in doctors)
+            //foreach (var doctor in doctors)
             //{
             //    var stringId = doctor.Speciality.EncryptedId.ToString();
-            //    doctor.Speciality.EncryptedId=_protector.Protect(stringId);
+            //    doctor.Speciality.EncryptedId = _protector.Protect(stringId);
             //}
-            return View(s);
+
+            var doc = db.Doctors.Include(s => s.Speciality).Include(c => c.Clinic)
+                .Where(s => s.SpecialityId == id && s.ClinicId == DoctorItem.IdDoctorItem).ToList().Distinct();
+            return View(doc);
         }
         [HttpGet]
         public IActionResult ScheduleDoctorsView(int id)

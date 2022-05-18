@@ -16,6 +16,8 @@ namespace ElRegistratura.Models
         [Display(Name = "Поликлиника")]
         public Clinic? Clinic { get; set; }
 
+        public string CabinetNameAndClinicName { get; set; }
+
         public List<Schedule> Schedules { get; set; }
     }
 }

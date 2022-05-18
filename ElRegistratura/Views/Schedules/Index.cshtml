@@ -41,8 +41,11 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+@foreach (var item in Model.Reverse()) {
+      
+    if(item.Data<=DateTime.Today)
+            {
+                 <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Data)
             </td>
@@ -66,12 +69,48 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IsShow)
             </td>
+            <td> 
+                    
+                     <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> 
+
+            </td>
+                </tr>
+            }
+            else
+            {
+                 <tr>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.Doctor.LastName)
+            @Html.DisplayFor(modelItem => item.Doctor.FirstName)
+            @Html.DisplayFor(modelItem => item.Doctor.Patronymic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkFinish)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cabinet.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsShow)
+            </td>
+            <td> 
+                     <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                     <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
+                     <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>   
+
             </td>
         </tr>
+            }
+           
 }
     </tbody>
 </table>

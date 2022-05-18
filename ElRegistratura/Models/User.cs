@@ -36,7 +36,7 @@ namespace ElRegistratura.Models
         [Display(Name = "Кем выдан"), DataType(DataType.Text)]
         public string IssuedBy { get; set; }
 
-
+        public int ChatId { get; set; }
 
         [Display(Name = "Пол")]
         public int? SexId { get; set; }

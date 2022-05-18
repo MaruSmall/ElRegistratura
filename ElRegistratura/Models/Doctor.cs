@@ -24,6 +24,9 @@ namespace ElRegistratura.Models
         public string DoctorPicture { get; set; }
         [Display(Name = "Поликлиника")]
         
+        public string FIOAndClinicName { get; set; }
+
+
         public int ClinicId { get; set; }
         [Display(Name = "Поликлиника")]
         public Clinic Clinic { get; set; }

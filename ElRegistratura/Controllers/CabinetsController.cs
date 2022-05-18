@@ -63,6 +63,8 @@ namespace ElRegistratura.Controllers
         {
             if (ModelState.IsValid)
             {
+                var clinic = _context.Clinics.Where(s=>s.Id==cabinet.ClinicId).FirstOrDefault();
+                cabinet.CabinetNameAndClinicName = cabinet.Name + " " + clinic.Name;
                 _context.Add(cabinet);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

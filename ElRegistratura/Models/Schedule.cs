@@ -15,9 +15,9 @@ namespace ElRegistratura.Models
         public int DoctorId { get; set; }
         [Display(Name = "Врач")]
         public Doctor Doctor { get; set; }
-        [Display(Name = "Начало работы")]
+        [Display(Name = "Время начало работы")]
         public TimeSpan WorkStart { get; set; }
-        [Display(Name = "Конец работы")]
+        [Display(Name = "Время конец работы")]
         public TimeSpan WorkFinish { get; set; }
         [Display(Name = "Продолжительность работы")]
         public TimeSpan Duration { get; set; }
@@ -27,8 +27,10 @@ namespace ElRegistratura.Models
         public Cabinet Cabinet { get; set; }
         [Display(Name = "Показ расписания врача")]
         public bool IsShow { get; set; }
+        [Display(Name ="Дата начала работы")]
         [DataType(DataType.Date)]
         public DateTime DateStart { get; set; }
+        [Display(Name = "Дата конца работы")]
         [DataType(DataType.Date)]
         public DateTime DateFinish { get; set; }
         public List<Ticket> Tickets { get; set; }

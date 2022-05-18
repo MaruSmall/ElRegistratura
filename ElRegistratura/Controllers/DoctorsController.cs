@@ -74,8 +74,9 @@ namespace ElRegistratura.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var clinicName= _context.Clinics
+                var clinicName = _context.Clinics.Where(s => s.Id == doctor.ClinicId).FirstOrDefault();
                 doctor.FIO=doctor.LastName+" "+doctor.FirstName+" "+doctor.Patronymic;
+                doctor.FIOAndClinicName = doctor.FIO + " " + clinicName.Name;
                 _context.Add(doctor);
                
                 await _context.SaveChangesAsync();

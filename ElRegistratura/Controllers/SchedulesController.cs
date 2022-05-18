@@ -51,8 +51,8 @@ namespace ElRegistratura.Controllers
         public IActionResult Create()
         {
             
-           ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name");
-           ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO");
+           ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "CabinetNameAndClinicName");
+           ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIOAndClinicName");
             return View();
         }
 
@@ -63,36 +63,56 @@ namespace ElRegistratura.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Data,DoctorId,WorkStart,WorkFinish,Duration,CabinetId,IsShow")] Schedule schedule, Ticket ticket, Status status)
         {
-            TimeSpan hour = schedule.WorkFinish - schedule.WorkStart;
-            int tick = Convert.ToInt32(hour.TotalMinutes / schedule.Duration.TotalMinutes); 
-
-            if (ModelState.IsValid)
+            var d=_context.Schedules.Where(s=>s.Data==schedule.Data).FirstOrDefault();
+            if(d!=null)
             {
-                _context.Add(schedule);
-                await _context.SaveChangesAsync();
-                ticket.ScheduleId = schedule.Id;
-                TimeSpan time = schedule.WorkStart;
-                
-                for (int i = 0; i < tick; i++)
-                {
-                    ticket.Id  = new Guid();
-                    Random rnd = new Random();
-                    
-                    ticket.Number = new Random().Next(10000, 100000).ToString();
-                    ticket.Time = time;
-                    time = time + schedule.Duration;
-
-                    ticket.StatusId = 1;
-                    _context.Add(ticket);
-                    await _context.SaveChangesAsync();
-                }
-               
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                var cabinet = _context.Cabinets.Where(s => s.Id == schedule.CabinetId).FirstOrDefault();
+                var doc=_context.Doctors.Where(s=>s.Id== schedule.DoctorId).FirstOrDefault();
+                if(cabinet.ClinicId==doc.ClinicId)
+                {
+                    TimeSpan hour = schedule.WorkFinish - schedule.WorkStart;
+                    int tick = Convert.ToInt32(hour.TotalMinutes / schedule.Duration.TotalMinutes);
+
+                    if (ModelState.IsValid)
+                    {
+                        _context.Add(schedule);
+                        await _context.SaveChangesAsync();
+                        ticket.ScheduleId = schedule.Id;
+                        TimeSpan time = schedule.WorkStart;
+
+                        for (int i = 0; i < tick; i++)
+                        {
+                            ticket.Id = new Guid();
+                            Random rnd = new Random();
+
+                            ticket.Number = new Random().Next(10000, 100000).ToString();
+                            ticket.Time = time;
+                            time = time + schedule.Duration;
+
+                            ticket.StatusId = 1;
+                            _context.Add(ticket);
+                            await _context.SaveChangesAsync();
+                        }
+
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "CabinetNameAndClinicName", schedule.CabinetId);
+                    ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIOAndClinicName", schedule.DoctorId);
+                    return View(schedule);
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+               
+            }
            
-            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
-            ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO", schedule.DoctorId);
-            return View(schedule);
+           
         }
 
         // GET: Schedules/Edit/5
@@ -108,8 +128,8 @@ namespace ElRegistratura.Controllers
             {
                 return NotFound();
             }
-            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LastName", schedule.DoctorId);
+            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "CabinetNameAndClinicName", schedule.CabinetId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "FIOAndClinicName", schedule.DoctorId);
             return View(schedule);
         }
 
@@ -145,8 +165,8 @@ namespace ElRegistratura.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LastName", schedule.DoctorId);
+            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "CabinetNameAndClinicName", schedule.CabinetId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "FIOAndClinicName", schedule.DoctorId);
             return View(schedule);
         }
 
@@ -173,7 +193,7 @@ namespace ElRegistratura.Controllers
         // POST: Schedules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var schedule = await _context.Schedules.FindAsync(id);
             _context.Schedules.Remove(schedule);
@@ -186,8 +206,8 @@ namespace ElRegistratura.Controllers
         public IActionResult CreateWeek()
         {
 
-            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name");
-            ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO");
+            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "CabinetNameAndClinicName");
+            ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIOAndClinicName");
             return View();
         }
 
@@ -198,49 +218,79 @@ namespace ElRegistratura.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateWeek([Bind("Id,DateStart, DateFinish,DoctorId,WorkStart,WorkFinish,Duration,CabinetId,IsShow")] Schedule schedule, Ticket ticket, Status status)
         {
-            TimeSpan hour = schedule.WorkFinish - schedule.WorkStart;
-            int tick = Convert.ToInt32(hour.TotalMinutes / schedule.Duration.TotalMinutes);
+            //var d = _context.Schedules.Where(s => s.Data == schedule.Data).ToList();
+            //if (d != null)
+            //{
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //else
+            //{
 
-            if (ModelState.IsValid)
+            var cabinet = _context.Cabinets.Where(s => s.Id == schedule.CabinetId).FirstOrDefault();
+            var doc = _context.Doctors.Where(s => s.Id == schedule.DoctorId).FirstOrDefault();
+            if (cabinet.ClinicId == doc.ClinicId)
             {
-                var countDays=schedule.DateFinish- schedule.DateStart;
-                var data = schedule.DateStart;
-                //schedule.Data = schedule.DateStart;
 
-                for(int k=0; k<=countDays.Days;k++)
+                TimeSpan hour = schedule.WorkFinish - schedule.WorkStart;
+                int tick = Convert.ToInt32(hour.TotalMinutes / schedule.Duration.TotalMinutes);
+
+                if (ModelState.IsValid)
                 {
-                    schedule.Id = new Guid();
-                    schedule.Data = data;
-                    schedule.DateStart = schedule.DateStart.AddDays(1);
-                    data = schedule.DateStart;
-                    _context.Add(schedule);
-                    await _context.SaveChangesAsync();
+                    var countDays = schedule.DateFinish - schedule.DateStart;
+                    var data = schedule.DateStart;
+                    //schedule.Data = schedule.DateStart;
 
-                    ticket.ScheduleId = schedule.Id;
-                    TimeSpan time = schedule.WorkStart;
-
-                    for (int i = 0; i < tick; i++)
+                    for (int k = 0; k <= countDays.Days; k++)
                     {
-                        ticket.Id = new Guid();
-                        Random rnd = new Random();
-
-                        ticket.Number = new Random().Next(10000, 100000).ToString();
-                        ticket.Time = time;
-                        time = time + schedule.Duration;
-
-                        ticket.StatusId = 1;
-                        _context.Add(ticket);
-                        await _context.SaveChangesAsync();
+                    var dp = _context.Schedules.Select(s=>s.Data).ToList();
+                    foreach(var d in dp)
+                    {
+                        if(d==data) 
+                        {
+                            continue;
+                        }
                     }
-                }
-               
+                       schedule.Id = new Guid();
+                       schedule.Data = data;
+                       schedule.DateStart = schedule.DateStart.AddDays(1);
+                       data = schedule.DateStart;
+                       _context.Add(schedule);
+                       await _context.SaveChangesAsync();
 
+                       ticket.ScheduleId = schedule.Id;
+                       TimeSpan time = schedule.WorkStart;
+
+                       for (int i = 0; i < tick; i++)
+                       {
+                           ticket.Id = new Guid();
+                           Random rnd = new Random();
+
+                           ticket.Number = new Random().Next(10000, 100000).ToString();
+                           ticket.Time = time;
+                           time = time + schedule.Duration;
+
+                           ticket.StatusId = 1;
+                           _context.Add(ticket);
+                           await _context.SaveChangesAsync();
+                       }
+                            
+                        
+                       
+                    }
+
+
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "CabinetNameAndClinicName", schedule.CabinetId);
+                ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIOAndClinicName", schedule.DoctorId);
+                return View(schedule);
+            }
+            else
+            {
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["CabinetId"] = new SelectList(_context.Cabinets, "Id", "Name", schedule.CabinetId);
-            ViewData["DoctorFIO"] = new SelectList(_context.Doctors, "Id", "FIO", schedule.DoctorId);
-            return View(schedule);
+           
         }
 
         private bool ScheduleExists(Guid id)
