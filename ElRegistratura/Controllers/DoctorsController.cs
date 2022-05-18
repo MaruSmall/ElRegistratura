@@ -70,14 +70,43 @@ namespace ElRegistratura.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LastName,FirstName,Patronymic,DoctorPicture,ClinicId,CategoryId,PositionId,SpecialityId,PlotId")] Doctor doctor)
+        public async Task<IActionResult> Create([Bind("Id,LastName,FirstName,Patronymic,DoctorPicture,ClinicId,CategoryId,PositionId,SpecialityId,PlotId")] Doctor doctor, ViewModelDoctor vmd)
         {
             if (ModelState.IsValid)
             {
                 var clinicName = _context.Clinics.Where(s => s.Id == doctor.ClinicId).FirstOrDefault();
-                doctor.FIO=doctor.LastName+" "+doctor.FirstName+" "+doctor.Patronymic;
+                doctor.FIO = doctor.LastName + " " + doctor.FirstName + " " + doctor.Patronymic;
                 doctor.FIOAndClinicName = doctor.FIO + " " + clinicName.Name;
-                _context.Add(doctor);
+                Doctor doctor1 = new Doctor 
+                { 
+                    CategoryId = vmd.CategoryId, 
+                    LastName = vmd.LastName,
+                    FirstName = vmd.FirstName,
+                    Patronymic=vmd.Patronymic,
+                    ClinicId=vmd.ClinicId,
+                    PositionId=vmd.PositionId,
+                    SpecialityId=vmd.SpecialityId,
+                    PlotId=vmd.PlotId,
+                    FIO=doctor.FIO,
+                    FIOAndClinicName=doctor.FIOAndClinicName,
+                };
+                if (vmd.DoctorPicture != null)
+                {
+                    byte[] imageData = null;
+                    // считываем переданный файл в массив байтов
+                    using (var binaryReader = new BinaryReader(vmd.DoctorPicture.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int)vmd.DoctorPicture.Length);
+                    }
+                    // установка массива байтов
+                    doctor1.DoctorPicture = imageData;
+                }
+                
+                //var clinicName = _context.Clinics.Where(s => s.Id == doctor.ClinicId).FirstOrDefault();
+                //doctor.FIO=doctor.LastName+" "+doctor.FirstName+" "+doctor.Patronymic;
+                //doctor.FIOAndClinicName = doctor.FIO + " " + clinicName.Name;
+                _context.Doctors.Add(doctor1);
+               // _context.Add(doctor);
                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

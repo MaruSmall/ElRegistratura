@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ElRegistratura.Migrations
 {
-    public partial class INIDB : Migration
+    public partial class ini : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -130,9 +130,11 @@ namespace ElRegistratura.Migrations
                     Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PolisNumber = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: true),
+                    PlaceOfWork = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Series = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IssuedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ChatId = table.Column<int>(type: "int", nullable: false),
                     SexId = table.Column<int>(type: "int", nullable: true),
                     StreetId = table.Column<int>(type: "int", nullable: true),
                     HouseNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -286,7 +288,8 @@ namespace ElRegistratura.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Info = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClinicId = table.Column<int>(type: "int", nullable: true)
+                    ClinicId = table.Column<int>(type: "int", nullable: true),
+                    CabinetNameAndClinicName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -356,7 +359,8 @@ namespace ElRegistratura.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FIO = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DoctorPicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoctorPicture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    FIOAndClinicName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClinicId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     PositionId = table.Column<int>(type: "int", nullable: false),

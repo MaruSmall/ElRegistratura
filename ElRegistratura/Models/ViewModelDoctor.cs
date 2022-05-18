@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ElRegistratura.Models
 {
-    public class Doctor
+    public class ViewModelDoctor
     {
-        // [TempData]
-        [NotMapped]
-        public string EncryptedId { get; set; }
+        [Display(Name = "Фотография")]
+        public IFormFile? DoctorPicture { get; set; }
         public int Id { get; set; }
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }
@@ -17,13 +15,13 @@ namespace ElRegistratura.Models
         public string FirstName { get; set; }
         [Display(Name = "Отчество")]
         public string Patronymic { get; set; }
-        [Display(Name ="ФИО")]
+        [Display(Name = "ФИО")]
         public string FIO { get; set; }
-
-        [Display(Name = "Фотография")]
-        public byte[]? DoctorPicture { get; set; }
+ 
+      
+      
         [Display(Name = "Поликлиника")]
-        
+
         public string FIOAndClinicName { get; set; }
 
 

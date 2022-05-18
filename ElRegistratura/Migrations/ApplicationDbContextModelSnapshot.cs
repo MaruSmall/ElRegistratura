@@ -132,8 +132,8 @@ namespace ElRegistratura.Migrations
                     b.Property<int>("ClinicId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DoctorPicture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("DoctorPicture")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FIO")
                         .HasColumnType("nvarchar(max)");

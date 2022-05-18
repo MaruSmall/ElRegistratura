@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElRegistratura.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220511080234_hgg")]
-    partial class hgg
+    [Migration("20220518161742_ini")]
+    partial class ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,9 @@ namespace ElRegistratura.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CabinetNameAndClinicName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ClinicId")
                         .HasColumnType("int");
@@ -131,10 +134,13 @@ namespace ElRegistratura.Migrations
                     b.Property<int>("ClinicId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DoctorPicture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("DoctorPicture")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FIO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FIOAndClinicName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -353,6 +359,9 @@ namespace ElRegistratura.Migrations
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ChatId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -407,6 +416,9 @@ namespace ElRegistratura.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PlaceOfWork")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PolisNumber")
                         .HasMaxLength(16)

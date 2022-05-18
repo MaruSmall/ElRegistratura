@@ -63,15 +63,18 @@ namespace ElRegistratura.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Data,DoctorId,WorkStart,WorkFinish,Duration,CabinetId,IsShow")] Schedule schedule, Ticket ticket, Status status)
         {
-            var d=_context.Schedules.Where(s=>s.Data==schedule.Data).FirstOrDefault();
-            if(d!=null)
+            var doc = _context.Doctors.Where(s => s.Id == schedule.DoctorId).FirstOrDefault();
+            var d=_context.Schedules.Where(s=>s.Data==schedule.Data ).FirstOrDefault();
+            if(d!=null&& d.DoctorId == doc.Id)
             {
-                return RedirectToAction(nameof(Index));
+                   return RedirectToAction(nameof(Index));
+   
             }
             else
             {
                 var cabinet = _context.Cabinets.Where(s => s.Id == schedule.CabinetId).FirstOrDefault();
-                var doc=_context.Doctors.Where(s=>s.Id== schedule.DoctorId).FirstOrDefault();
+              
+                
                 if(cabinet.ClinicId==doc.ClinicId)
                 {
                     TimeSpan hour = schedule.WorkFinish - schedule.WorkStart;
@@ -238,44 +241,62 @@ namespace ElRegistratura.Controllers
                 {
                     var countDays = schedule.DateFinish - schedule.DateStart;
                     var data = schedule.DateStart;
-                    //schedule.Data = schedule.DateStart;
+                    
 
                     for (int k = 0; k <= countDays.Days; k++)
                     {
-                    var dp = _context.Schedules.Select(s=>s.Data).ToList();
-                    foreach(var d in dp)
-                    {
-                        if(d==data) 
+                        
+                        schedule.Data = data;
+                        var doct = _context.Doctors.Where(s => s.Id == schedule.DoctorId).FirstOrDefault();
+                        var d = _context.Schedules.Where(s => s.Data == schedule.Data).ToList();
+                        if (d.Count != 0 )
                         {
+                            for(int i = 0; i < d.Count; i++)
+                            {
+                                if(d[i].DoctorId==doct.Id)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                               
+                            }
+                            schedule.DateStart = schedule.DateStart.AddDays(1);
+                            data = schedule.DateStart;
                             continue;
                         }
-                    }
-                       schedule.Id = new Guid();
-                       schedule.Data = data;
-                       schedule.DateStart = schedule.DateStart.AddDays(1);
-                       data = schedule.DateStart;
-                       _context.Add(schedule);
-                       await _context.SaveChangesAsync();
+                        else
+                        {
+                            schedule.Id = new Guid();
 
-                       ticket.ScheduleId = schedule.Id;
-                       TimeSpan time = schedule.WorkStart;
+                            schedule.DateStart = schedule.DateStart.AddDays(1);
+                            data = schedule.DateStart;
+                            _context.Add(schedule);
+                            await _context.SaveChangesAsync();
 
-                       for (int i = 0; i < tick; i++)
-                       {
-                           ticket.Id = new Guid();
-                           Random rnd = new Random();
+                            ticket.ScheduleId = schedule.Id;
+                            TimeSpan time = schedule.WorkStart;
 
-                           ticket.Number = new Random().Next(10000, 100000).ToString();
-                           ticket.Time = time;
-                           time = time + schedule.Duration;
+                            for (int i = 0; i < tick; i++)
+                            {
+                                ticket.Id = new Guid();
+                                Random rnd = new Random();
 
-                           ticket.StatusId = 1;
-                           _context.Add(ticket);
-                           await _context.SaveChangesAsync();
-                       }
-                            
-                        
-                       
+                                ticket.Number = new Random().Next(10000, 100000).ToString();
+                                ticket.Time = time;
+                                time = time + schedule.Duration;
+
+                                ticket.StatusId = 1;
+                                _context.Add(ticket);
+                                await _context.SaveChangesAsync();
+                            }
+
+
+
+                        }
+
                     }
 
 
@@ -290,7 +311,9 @@ namespace ElRegistratura.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-           
+
+
+
         }
 
         private bool ScheduleExists(Guid id)
