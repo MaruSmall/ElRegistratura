@@ -19,7 +19,7 @@ namespace ElRegistratura.Models
         public TimeSpan WorkStart { get; set; }
         [Display(Name = "Время конец работы")]
         public TimeSpan WorkFinish { get; set; }
-        [Display(Name = "Продолжительность работы")]
+        [Display(Name = "Интервал работы")]
         public TimeSpan Duration { get; set; }
         [Display(Name = "Кабинет")]
         public int CabinetId { get; set; }
@@ -33,6 +33,10 @@ namespace ElRegistratura.Models
         [Display(Name = "Дата конца работы")]
         [DataType(DataType.Date)]
         public DateTime DateFinish { get; set; }
+        [Display(Name = "Начала перерыва")]
+        public TimeSpan BreakStart { get; set; }
+        [Display(Name = "Конец перерыва")]
+        public TimeSpan BreakFinish { get; set; }
         public List<Ticket> Tickets { get; set; }
 
     }

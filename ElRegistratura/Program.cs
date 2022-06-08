@@ -17,14 +17,14 @@ using Telegram.Bot;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Exceptions;
+using ElRegistratura.Controllers;
 
 namespace ElRegistratura
 {
     public class Program
     {
         static ITelegramBotClient bot = new TelegramBotClient("5351994087:AAE7yYgY08R7p_qWrO-6v0ki8OVxlxZkJGM");
-       static ApplicationDbContext context= new ApplicationDbContext();
-        
+      
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
@@ -58,6 +58,8 @@ namespace ElRegistratura
                             receiverOptions,
                             cancellationToken
                         );
+                        //TelegramBotController tb = new TelegramBotController();
+                        //tb.
 
                         host.Run();
                         Console.ReadLine();
@@ -103,7 +105,7 @@ namespace ElRegistratura
                 if (message.Text.ToLower() == "/start")
                 {
                     
-                    await botClient.SendTextMessageAsync(message.Chat, "Добро пожаловать на борт, добрый путник!");
+                    await botClient.SendTextMessageAsync(message.Chat, "Добро пожаловать, добрый путник!");
                     return;
                 }
                 if(message.Text.ToLower() == "/phone")

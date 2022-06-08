@@ -19,11 +19,21 @@ namespace ElRegistratura.Controllers
         }
 
         // GET: UserController
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? name)
         {
+            IQueryable<User> users = _context.Users.Include(p => p.Street).Include(s=>s.Sex);
+            if (!string.IsNullOrEmpty(name))
+            {
+                users = users.Where(p => p.PolisNumber!.Contains(name));
+            }
+            UserIndexViewModel viewModel = new UserIndexViewModel
+            {
+                User = users.ToList(),
+               
+                Name = name
+            };
+            return View(viewModel);
 
-            var applicationDbContext = _context.Users.Include(c => c.Street).Include(s=>s.Sex);
-            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: UserController/Details/5

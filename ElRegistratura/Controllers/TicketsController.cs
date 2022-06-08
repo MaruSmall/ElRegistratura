@@ -21,11 +21,29 @@ namespace ElRegistratura.Controllers
         }
 
         // GET: Tickets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? status)
         {
-            var applicationDbContext = _context.Tickets.Include(t => t.Schedule).ThenInclude(d=>d.Doctor).ThenInclude(c=>c.Clinic)
-                .Include(t => t.Status).Include(t => t.User);
-            return View(await applicationDbContext.ToListAsync());
+            //var applicationDbContext = _context.Tickets.Include(t => t.Schedule).ThenInclude(d=>d.Doctor).ThenInclude(c=>c.Clinic)
+            //    .Include(t => t.Status).Include(t => t.User);
+
+            IQueryable<Ticket> tickets = _context.Tickets.Include(x => x.Schedule).ThenInclude(d=>d.Doctor).ThenInclude(c=>c.Clinic)
+                .Include(s=>s.Status).Include(s=>s.User);
+
+            if(status!=null&&status!=0)
+            {
+                tickets= tickets.Where(x=>x.StatusId==status);
+            }
+            List<Status> statuList = _context.Status.ToList();
+            statuList.Insert(0, new Status { Name = "Все", Id = 0 });
+            ViewModelIndexTickets viewModelIndexTickets = new ViewModelIndexTickets
+            {
+                Ticket = tickets,
+                Status=new SelectList(statuList, "Id", "Name", status)
+            };
+            return View(viewModelIndexTickets);
+
+
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Tickets/Details/5

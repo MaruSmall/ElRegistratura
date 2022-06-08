@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ElRegistratura.Models.User>
+﻿@model ElRegistratura.Models.UserIndexViewModel
 @{
     ViewData["Title"] = "Главная";
 }
@@ -10,35 +10,45 @@
 <p>
     <a asp-action="Create">Создать нового пользователя</a>
 </p>
+
+<form method="get">
+    <div>
+        <label>Номер полиса: </label>
+        <input asp-for="Name" />
+
+        <input type="submit" value="Фильтр" />
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Фамилия
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                Имя
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Patronymic)
+                Отчество
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Birthday)
+                День рождения
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                
+            Электронная почта
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                Номер телефона 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PolisNumber)
+                Полис
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.User) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)

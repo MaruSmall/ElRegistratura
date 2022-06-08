@@ -1,0 +1,258 @@
+﻿@model ElRegistratura.Models.CreateScheduleViewModel
+
+@{
+    ViewData["Title"] = "CreateSchedule";
+}
+
+<h1>CreateSchedule</h1>
+
+<h4>Schedule</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateSchedule" method="post">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+                <div>
+                <h4>
+                <input type="checkbox" name="Monday" value="true"/>
+                Понедельник
+                </h4>
+                <div class="form-group">
+                <label asp-for="WorkStartMonday" class="control-label"></label>
+                <input asp-for="WorkStartMonday" class="form-control" type="time" />
+                <span asp-validation-for="WorkStartMonday" class="text-danger"></span>
+
+                <label asp-for="WorkFinishMonday" class="control-label"></label>
+                <input asp-for="WorkFinishMonday" class="form-control" type="time"/>
+                <span asp-validation-for="WorkFinishMonday" class="text-danger"></span>
+
+                <label asp-for="DurationMonday" class="control-label"></label>
+                <input asp-for="DurationMonday" class="form-control" type="time" />
+                <span asp-validation-for="DurationMonday" class="text-danger"></span>
+
+                <label asp-for="BreakStartMonday" class="control-label"></label>
+                <input asp-for="BreakStartMonday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakStartMonday" class="text-danger"></span>
+
+                <label asp-for="BreakFinishMonday" class="control-label"></label>
+                <input asp-for="BreakFinishMonday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakFinishMonday" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <h4>
+                <input type="checkbox" name="Tuesday" value="true"/>
+                Вторник
+                </h4>
+                  <div class="form-group">
+                <label asp-for="WorkStartTuesday" class="control-label"></label>
+                <input asp-for="WorkStartTuesday" class="form-control" type="time" />
+                <span asp-validation-for="WorkStartTuesday" class="text-danger"></span>
+
+                  <label asp-for="WorkFinishTuesday" class="control-label"></label>
+                <input asp-for="WorkFinishTuesday" class="form-control" type="time"/>
+                <span asp-validation-for="WorkFinishTuesday" class="text-danger"></span>
+
+                 <label asp-for="DurationTuesday" class="control-label"></label>
+                <input asp-for="DurationTuesday" class="form-control" type="time" />
+                <span asp-validation-for="DurationTuesday" class="text-danger"></span>
+
+                <label asp-for="BreakStartTuesday" class="control-label"></label>
+                <input asp-for="BreakStartTuesday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakStartTuesday" class="text-danger"></span>
+
+                <label asp-for="BreakFinishTuesday" class="control-label"></label>
+                <input asp-for="BreakFinishTuesday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakFinishTuesday" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <h4>
+                <input type="checkbox" name="Wednesday" value="true"/>
+                Среда
+                </h4>
+                 
+                 <div class="form-group">
+                <label asp-for="WorkStartWednesday" class="control-label"></label>
+                <input asp-for="WorkStartWednesday" class="form-control" type="time" />
+                <span asp-validation-for="WorkStartWednesday" class="text-danger"></span>
+
+                  <label asp-for="WorkFinishWednesday" class="control-label"></label>
+                <input asp-for="WorkFinishWednesday" class="form-control" type="time"/>
+                <span asp-validation-for="WorkFinishWednesday" class="text-danger"></span>
+
+                 <label asp-for="DurationWednesday" class="control-label"></label>
+                <input asp-for="DurationWednesday" class="form-control" type="time" />
+                <span asp-validation-for="DurationWednesday" class="text-danger"></span>
+
+                <label asp-for="BreakStartWednesday" class="control-label"></label>
+                <input asp-for="BreakStartWednesday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakStartWednesday" class="text-danger"></span>
+
+                <label asp-for="BreakFinishWednesday" class="control-label"></label>
+                <input asp-for="BreakFinishWednesday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakFinishWednesday" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <h4>
+                <input type="checkbox" name="Thursday" value="true"/>
+                Четверг
+                </h4>
+                 
+                  <div class="form-group">
+                <label asp-for="WorkStartThursday" class="control-label"></label>
+                <input asp-for="WorkStartThursday" class="form-control" type="time" />
+                <span asp-validation-for="WorkStartThursday" class="text-danger"></span>
+
+                  <label asp-for="WorkFinishThursday" class="control-label"></label>
+                <input asp-for="WorkFinishThursday" class="form-control" type="time"/>
+                <span asp-validation-for="WorkFinishThursday" class="text-danger"></span>
+
+                 <label asp-for="DurationThursday" class="control-label"></label>
+                <input asp-for="DurationThursday" class="form-control" type="time" />
+                <span asp-validation-for="DurationThursday" class="text-danger"></span>
+
+                <label asp-for="BreakStartThursday" class="control-label"></label>
+                <input asp-for="BreakStartThursday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakStartThursday" class="text-danger"></span>
+
+                <label asp-for="BreakFinishThursday" class="control-label"></label>
+                <input asp-for="BreakFinishThursday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakFinishThursday" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <h4>
+                <input type="checkbox" name="Friday" value="true"/>
+                Пятница
+                </h4>
+                 
+                  <div class="form-group">
+                <label asp-for="WorkStartFriday" class="control-label"></label>
+                <input asp-for="WorkStartFriday" class="form-control" type="time" />
+                <span asp-validation-for="WorkStartFriday" class="text-danger"></span>
+
+                  <label asp-for="WorkFinishFriday" class="control-label"></label>
+                <input asp-for="WorkFinishFriday" class="form-control" type="time"/>
+                <span asp-validation-for="WorkFinishFriday" class="text-danger"></span>
+
+                 <label asp-for="DurationFriday" class="control-label"></label>
+                <input asp-for="DurationFriday" class="form-control" type="time" />
+                <span asp-validation-for="DurationFriday" class="text-danger"></span>
+
+                <label asp-for="BreakStartFriday" class="control-label"></label>
+                <input asp-for="BreakStartFriday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakStartFriday" class="text-danger"></span>
+
+                <label asp-for="BreakFinishFriday" class="control-label"></label>
+                <input asp-for="BreakFinishFriday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakFinishFriday" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <h4>
+                    <input type="checkbox" name="Saturday" value="true"/>
+                Суббота
+                </h4>
+                 
+                  <div class="form-group">
+                <label asp-for="WorkStartSaturday" class="control-label"></label>
+                <input asp-for="WorkStartSaturday" class="form-control" type="time" />
+                <span asp-validation-for="WorkStartSaturday" class="text-danger"></span>
+
+                  <label asp-for="WorkFinishSaturday" class="control-label"></label>
+                <input asp-for="WorkFinishSaturday" class="form-control" type="time"/>
+                <span asp-validation-for="WorkFinishSaturday" class="text-danger"></span>
+
+                 <label asp-for="DurationSaturday" class="control-label"></label>
+                <input asp-for="DurationSaturday" class="form-control" type="time" />
+                <span asp-validation-for="DurationSaturday" class="text-danger"></span>
+
+                <label asp-for="BreakStartSaturday" class="control-label"></label>
+                <input asp-for="BreakStartSaturday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakStartSaturday" class="text-danger"></span>
+
+                <label asp-for="BreakFinishSaturday" class="control-label"></label>
+                <input asp-for="BreakFinishSaturday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakFinishSaturday" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <h4>
+                <input type="checkbox" name="Sunday" value="true"/>
+                Воскресение 
+                </h4>
+                 
+                  <div class="form-group">
+                <label asp-for="WorkStartSunday" class="control-label"></label>
+                <input asp-for="WorkStartSunday" class="form-control" type="time" />
+                <span asp-validation-for="WorkStartSunday" class="text-danger"></span>
+
+                  <label asp-for="WorkFinishSunday" class="control-label"></label>
+                <input asp-for="WorkFinishSunday" class="form-control" type="time"/>
+                <span asp-validation-for="WorkFinishSunday" class="text-danger"></span>
+
+                 <label asp-for="DurationSunday" class="control-label"></label>
+                <input asp-for="DurationSunday" class="form-control" type="time" />
+                <span asp-validation-for="DurationSunday" class="text-danger"></span>
+
+                <label asp-for="BreakStartSunday" class="control-label"></label>
+                <input asp-for="BreakStartSunday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakStartSunday" class="text-danger"></span>
+
+                <label asp-for="BreakFinishSunday" class="control-label"></label>
+                <input asp-for="BreakFinishSunday" class="form-control" type="time"/>
+                <span asp-validation-for="BreakFinishSunday" class="text-danger"></span>
+                </div>
+            </div>
+            
+
+             <div class="form-group">
+                <label asp-for="Schedule.DateStart" class="control-label"></label>
+                <input asp-for="Schedule.DateStart" class="form-control" />
+                <span asp-validation-for="Schedule.DateStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Schedule.DateFinish" class="control-label"></label>
+                <input asp-for="Schedule.DateFinish" class="form-control" />
+                <span asp-validation-for="Schedule.DateFinish" class="text-danger"></span>
+            </div>
+
+             <div class="form-group">
+                <label asp-for="Schedule.CabinetId" class="control-label"></label>
+                <select asp-for="Schedule.CabinetId" class ="form-control" asp-items="ViewBag.CabinetId"></select>
+            </div>
+           
+             <div class="form-group">
+                <label asp-for="Schedule.DoctorId" class="control-label"></label>
+                <select asp-for="Schedule.DoctorId" class ="form-control" asp-items="ViewBag.DoctorFIO"></select>
+            </div>
+
+             <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Schedule.IsShow" /> @Html.DisplayNameFor(model => Model.Schedule.IsShow)
+                </label>
+            </div>
+ 
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

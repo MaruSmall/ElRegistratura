@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ElRegistratura.Models.Ticket>
+﻿@model ElRegistratura.Models.ViewModelIndexTickets
 
 @{
     ViewData["Title"] = "Главная";
@@ -9,26 +9,35 @@
 @*<p>
     <a asp-action="Create">Create New</a>
 </p>*@
-<table class="table">
+
+<form method="get">
+    <div>
+        <label>Статус: </label>
+        <select name="status" asp-items="Model.Status"></select>
+  
+        <input type="submit" value="Фильтр" />
+    </div>
+</form>
+    <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Schedule)
+                Расписание
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User)
+                Пользователь
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+                Время
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Статус
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.OrderBy(i=>i.Time)) {
+@foreach (var item in Model.Ticket) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Schedule.Data)
@@ -38,7 +47,10 @@
                 @Html.DisplayFor(modelItem => item.Schedule.Doctor.Clinic.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
+                @Html.DisplayFor(modelItem => item.User.LastName)
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+                @Html.DisplayFor(modelItem => item.User.Patronymic)
+                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Time)
@@ -55,3 +67,5 @@
 }
     </tbody>
 </table>
+
+
