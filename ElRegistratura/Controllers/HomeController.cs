@@ -100,45 +100,6 @@ namespace ElRegistratura.Controllers
         public IActionResult DoctorsView(int id)//врачи определенной специальности в определенной поликлиники
         {
 
-            // var url = HttpUtility.UrlDecode(path);
-            //// url = url.Remove(0, url.Length - 2);
-            // url = url.Trim(new char[] { '/', 'D','o','c','t','r','s','V','e','w','H','m' });
-            // int id = Convert.ToInt32(url);
-
-            //var user = await _userRepository.GetUserDetail(id);
-
-            //user.Id = _protector.Protect(user.Id);
-
-            //return View(user);
-
-
-            //var sd = (from spec in db.Specialities
-            //          from doc in db.Doctors
-            //          from clinic in db.Clinics
-            //          where spec.Id == doc.SpecialityId && doc.SpecialityId == id && doc.ClinicId == DoctorItem.IdDoctorItem
-            //          select doc).ToList().Distinct();
-
-
-            //var spec = (from d in db.Doctors
-            //            join c in db.Clinics on d.ClinicId equals c.Id
-            //            join s in db.Specialities on d.SpecialityId equals s.Id
-            //            where d.ClinicId == DoctorItem.IdDoctorItem
-            //            select new
-            //            {
-            //                doctor = d.FIO,
-            //                sp = d.Speciality.Name
-            //                // other assignments
-            //            }).ToList().Distinct();
-
-            //if (doctors == null)
-            //{
-            //    return NotFound();
-            //}
-            //foreach (var doctor in doctors)
-            //{
-            //    var stringId = doctor.Speciality.EncryptedId.ToString();
-            //    doctor.Speciality.EncryptedId = _protector.Protect(stringId);
-            //}
 
             var doc = db.Doctors.Include(s => s.Speciality).Include(c => c.Clinic)
                 .Where(s => s.SpecialityId == id && s.ClinicId == DoctorItem.IdDoctorItem).ToList().Distinct();
